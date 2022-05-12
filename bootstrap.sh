@@ -5,8 +5,6 @@ set -e
 ###################################################
 # config begin
 
-# user info
-USER_NAME="tom"
 # partition spec
 ESP_DIR="/boot/efi"
 EFI_MOUNT_DIR="/mnt/boot/efi"
@@ -17,8 +15,7 @@ PACMAN_MIRRORS=(
 "Server=https://mirrors.tuna.tsinghua.edu.cn/archlinux/\$repo/os/\$arch"
 )
 PACMAN_PARALLEL=4
-PACKAGES=(base linux linux-firmware networkmanager grup efibootmgr sudo vi vim git)
-PACKAGES_DESKTOP=(plasma sddm konsole ark okular spectacle dolphin)
+PACKAGES=(base linux linux-firmware networkmanager grub efibootmgr sudo vi vim git)
 
 
 # config end
@@ -127,59 +124,24 @@ function install() {
     pacstrap /mnt ${PACKAGES[@]}
 }
 
-function config() {
-    echo "generate fstab:"
+function generate_fstab() {
     genfstab -U /mnt >> /mnt/etc/fstab
-
-    echo "chroot:"
-    arch-chroot /mnt
-
-    echo "set password for root:"
-    passwd
-
-    # https://wiki.archlinux.org/title/GRUB
-    echo "install grub"
-    grub-install --target=x86_64-efi --efi-directory=${ESP_DIR} --bootloader-id=GRUB
-    grub-mkconfig -o /boot/grub/grub.cfg
-
-    echo "enable network"
-    systemctl enable NetworkManager
-
-    echo "create user: ${USER_NAME}"
-    useradd -m $USER_NAME
-    passwd $USER_NAME
-    echo "add group to ${USER_NAME}"
-    usermod -aG wheel
-    echo "create wheel group"
-    echo "%wheel ALL=(ALL) ALL" > /etc/sudoers.d/wheel
-
-    echo "exit chroot"
-    exit
 }
 
-function desktop() {
-    echo "chroot:"
-    arch-chroot /mnt
-
-    pacman -S ${PACKAGES_DESKTOP[@]}
-    systemctl enable sddm
-
-    echo "exit chroot"
-    exit
+function enter_chroot() {
+    arch-chroot /mnt /bootstrap_chroot.sh
 }
 
 function main() {
     echo "begin to partiton and mount..."
     partition_and_mount
 
-    echo "begin to install..."
-    install
+    echo "begin to generate fstab..."
+    generate_fstab
 
-    echo "begin to config"
-    config
-
-    echo "begin to setup desktop..."
-    desktop
+    echo "enter chroot..."
+    enter_chroot
 }
 
 main
+
