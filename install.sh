@@ -2,27 +2,20 @@
 
 set -e
 
-###################################################
-# config begin
+source "scripts/common.sh"
 
-# partition spec
+CONFIGS_DIR="$(pwd)/configs"
 ESP_DIR="/boot/efi"
 EFI_MOUNT_DIR="/mnt/boot/efi"
 ROOT_MOUNT_DIR="/mnt"
-# pacman
-PACMAN_MIRRORS=(
-"Server=https://mirrors.sjtug.sjtu.edu.cn/archlinux/\$repo/os/\$arch"
-"Server=https://mirrors.tuna.tsinghua.edu.cn/archlinux/\$repo/os/\$arch"
-)
-PACMAN_PARALLEL=4
-PACKAGES=(base linux linux-firmware networkmanager grub efibootmgr sudo vi vim git)
 
 
-# config end
-###################################################
-
-
+# let user choose a disk to partition
+# the disk will be partitioned into two parts: esp and the main linux filesystem
+# esp will be 512M large where the rest disk room will be left to the main linux filesystem
 function partition_and_mount() {
+    echo "begin to partion disk and mount them"
+
     ## get all disks
     local disks=()
 
@@ -111,20 +104,19 @@ FDISK_CMDS
     mount --mkdir ${partitions[0]} $EFI_MOUNT_DIR
 }
 
+# install all the packages from local repo
 function install() {
-    ## setup pacman
-    # TODO: specify parallel downloads
-    local mirror_file="/etc/pacman.d/mirrorlist"
-    echo > $mirror_file
-    for m in ${PACMAN_MIRRORS[@]}; do
-        echo $m >> $mirror_file
-    done
+    echo "begin to install packages"
 
-    ## install kernel and other packages
-    pacstrap /mnt ${PACKAGES[@]}
+    echo "load packages..."
+    load_packages "${CONFIGS_DIR}/packages.txt"
+
+    local pacman_path="${CONFIGS_DIR}/bootstrap_pacman.conf"
+    pacstrap -cC ${pacman_path} /mnt ${PACKAGES[@]}
 }
 
 function generate_fstab() {
+    echo "generating fstab"
     genfstab -U /mnt >> /mnt/etc/fstab
 }
 
@@ -133,13 +125,9 @@ function enter_chroot() {
 }
 
 function main() {
-    echo "begin to partiton and mount..."
     partition_and_mount
-
-    echo "begin to generate fstab..."
+    install
     generate_fstab
-
-    echo "enter chroot..."
     enter_chroot
 }
 

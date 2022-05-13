@@ -19,14 +19,15 @@ llvm
 gcc
 clang
 
+# archlinux related
+archiso
+
 # cmd utilities
 fd
 ripgrep
 tokei
 
-
-# desktop
-## kde
+# kde
 plasma
 sddm
 konsole

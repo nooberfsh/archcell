@@ -5,6 +5,7 @@ set -e
 source "scripts/common.sh"
 
 BUILD_DIR="$(pwd)/build"
+CONFIGS_DIR="$(pwd)/configs"
 BUILD_REPO_DIR="${BUILD_DIR}/repo"
 BUILD_ISO_DIR="${BUILD_DIR}/iso"
 REPO_NAME="custom"
@@ -30,7 +31,7 @@ function build_local_repo() {
     echo "begin to build local repo"
 
     echo "load packages..."
-    load_packages "packages.txt"
+    load_packages "${CONFIGS_DIR}/packages.txt"
     load_packages "${ARCHISO_PROFILE_DIR}/packages.x86_64"
 
     # https://wiki.archlinux.org/title/Pacman/Tips_and_tricks#Installing_packages_from_a_CD/DVD_or_USB_stick
