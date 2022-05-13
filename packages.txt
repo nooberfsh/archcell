@@ -1,0 +1,34 @@
+# core
+base
+linux
+linux-firmware
+networkmanager
+grub
+efibootmgr
+sudo
+vi
+
+# dev
+base-devel
+vim
+neovim
+git
+python
+
+
+# desktop
+## kde
+plasma
+sddm
+konsole
+ark
+okular
+spectacle
+dolphin
+## input
+fcitx5-im
+fcitx5-chinese-addons
+fcitx5-pinyin-zhwiki
+##
+firefox
+
