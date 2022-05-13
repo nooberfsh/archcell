@@ -10,10 +10,19 @@ vi
 
 # dev
 base-devel
+cmake
 vim
 neovim
 git
 python
+llvm
+gcc
+clang
+
+# cmd utilities
+fd
+ripgrep
+tokei
 
 
 # desktop
@@ -25,10 +34,12 @@ ark
 okular
 spectacle
 dolphin
-## input
+
+# input method
 fcitx5-im
 fcitx5-chinese-addons
 fcitx5-pinyin-zhwiki
-##
+
+# gui applications
 firefox
 

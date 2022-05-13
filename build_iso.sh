@@ -2,18 +2,26 @@
 
 set -e
 
-source "common.sh"
+source "scripts/common.sh"
 
-BUILD_DIR="./build"
+BUILD_DIR="$(pwd)/build"
 BUILD_REPO_DIR="${BUILD_DIR}/repo"
 BUILD_ISO_DIR="${BUILD_DIR}/iso"
 REPO_NAME="custom"
 ARCHISO_PROFILE_DIR="/usr/share/archiso/configs/releng"
 ISO_ROOT="${BUILD_ISO_DIR}/airootfs/root"
+INSTALLER_DIR="${ISO_ROOT}/installer"
 
 function init() {
+    echo "init"
+
+    echo "create build dir: ${BUILD_DIR}"
     mkdir -p $BUILD_DIR
+
+    echo "create repo dir: ${BUILD_REPO_DIR}"
     mkdir -p $BUILD_REPO_DIR
+
+    echo "create iso dir: ${BUILD_ISO_DIR}"
     mkdir -p $BUILD_ISO_DIR
 }
 
@@ -28,7 +36,10 @@ function build_local_repo() {
     # https://wiki.archlinux.org/title/Pacman/Tips_and_tricks#Installing_packages_from_a_CD/DVD_or_USB_stick
     echo "downloading packages "
     sudo pacman -Syw --cachedir ${BUILD_REPO_DIR} --dbpath ${BUILD_REPO_DIR} ${PACKAGES[@]}
-    repo-add "${BUILD_REPO_DIR}/${REPO_NAME}.db.tar.gz" ${BUILD_REPO_DIR}/*.pkg.tar.zst
+    local suffixes=( xz zst )
+    for p in ${suffixes[@]}; do
+        repo-add "${BUILD_REPO_DIR}/${REPO_NAME}.db.tar.gz" ${BUILD_REPO_DIR}/*.pkg.tar.${p}
+    done
 }
 
 # build a custom iso
@@ -39,7 +50,7 @@ function build_custom_iso() {
     echo "begin to build custom iso"
 
     # https://wiki.archlinux.org/title/Archiso#Installation
-    cp -r ${ARCHISO_PROFILE_DIR} ${BUILD_ISO_DIR}
+    cp -a ${ARCHISO_PROFILE_DIR}/. ${BUILD_ISO_DIR}
 
     echo "modify archiso pacman.conf"
     local p="${BUILD_ISO_DIR}/pacman.conf"
@@ -49,14 +60,15 @@ function build_custom_iso() {
     echo "Server = file://${BUILD_REPO_DIR}" >> $p
 
     echo "copy local repo to iso"
-    cp -r ${BUILD_REPO_DIR} "${ISO_ROOT}/"
+    cp -r ${BUILD_REPO_DIR} "${ISO_ROOT}"
 
     echo "copy scripts and configs to iso"
-    git --work-tree="${ISO_ROOT}/installer/" checkout HEAD -- .
+    mkdir -p ${INSTALLER_DIR}
+    git --work-tree=${INSTALLER_DIR} checkout HEAD -- .
 
     # https://wiki.archlinux.org/title/Archiso#Build_the_ISO
     echo "building iso"
-    mkarchiso -v -w /tmp/archiso-tmp -o ${BUILD_DIR} ${BUILD_ISO_DIR}
+    sudo mkarchiso -v -w "${BUILD_DIR}/archiso-tmp" -o ${BUILD_DIR} ${BUILD_ISO_DIR}
 }
 
 function main() {
