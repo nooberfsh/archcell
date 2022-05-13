@@ -2,22 +2,13 @@
 
 set -e
 
-# user info
-USER_NAME="tom"
-ESP_DIR="/boot/efi"
-PACKAGES_DESKTOP=(plasma sddm konsole ark okular spectacle dolphin)
+source "scripts/configs.sh"
 
-function config() {
+function user() {
+    echo "config user"
+
     echo "set password for root:"
     passwd
-
-    # https://wiki.archlinux.org/title/GRUB
-    echo "install grub"
-    grub-install --target=x86_64-efi --efi-directory=${ESP_DIR} --bootloader-id=GRUB
-    grub-mkconfig -o /boot/grub/grub.cfg
-
-    echo "enable network"
-    systemctl enable NetworkManager
 
     echo "create user: ${USER_NAME}"
     useradd -m $USER_NAME
@@ -28,17 +19,27 @@ function config() {
     echo "%wheel ALL=(ALL) ALL" > /etc/sudoers.d/wheel
 }
 
-function desktop() {
-    pacman -S ${PACKAGES_DESKTOP[@]}
+function grub() {
+    # https://wiki.archlinux.org/title/GRUB
+    echo "install grub"
+    grub-install --target=x86_64-efi --efi-directory=${ESP_DIR} --bootloader-id=GRUB
+    grub-mkconfig -o /boot/grub/grub.cfg
+}
+
+function setup_service() {
+    echo "setup service"
+
+    echo "enable sddm"
     systemctl enable sddm
+
+    echo "enable network"
+    systemctl enable NetworkManager
 }
 
 function main() {
-    echo "begin to config"
-    config
-
-    echo "begin to setup desktop..."
-    desktop
+    user
+    grub
+    setup_service
 }
 
 main

@@ -3,11 +3,7 @@
 set -e
 
 source "scripts/common.sh"
-
-CONFIGS_DIR="$(pwd)/configs"
-ESP_DIR="/boot/efi"
-EFI_MOUNT_DIR="/mnt/boot/efi"
-ROOT_MOUNT_DIR="/mnt"
+source "scripts/configs.sh"
 
 
 # let user choose a disk to partition
