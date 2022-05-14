@@ -68,6 +68,11 @@ function setup_pacman() {
     pacman -Sy && sudo pacman -S archlinuxcn-keyring
 }
 
+function setup_fcitx5() {
+    echo "setup fctix5"
+    cp "${CONFIGS_DIR}/environment" "/etc/"
+}
+
 function main() {
     # general system setting
     setup_time_locale

@@ -11,13 +11,14 @@ vi
 # dev
 base-devel
 cmake
-vim
-neovim
 git
 python
 llvm
 gcc
 clang
+# neovim
+neovim
+xsel
 
 # archlinux related
 archiso
@@ -43,4 +44,7 @@ fcitx5-pinyin-zhwiki
 
 # gui applications
 firefox
+
+# fonts
+wqy-microhei
 
