@@ -9,6 +9,7 @@ REPO_NAME="custom"
 ARCHISO_PROFILE_DIR="/usr/share/archiso/configs/releng"
 ISO_ROOT="${BUILD_ISO_DIR}/airootfs/root"
 INSTALLER_DIR="${ISO_ROOT}/installer"
+ARCHISO_WORK_DIR="${BUILD_DIR}/archiso-tmp"
 
 # partition
 ESP_DIR="/boot/efi"

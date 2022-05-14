@@ -61,7 +61,8 @@ function build_custom_iso() {
 
     # https://wiki.archlinux.org/title/Archiso#Build_the_ISO
     echo "building iso"
-    sudo mkarchiso -v -w "${BUILD_DIR}/archiso-tmp" -o ${BUILD_DIR} ${BUILD_ISO_DIR}
+    sudo rm -fr ${ARCHISO_WORK_DIR}
+    sudo mkarchiso -v -w ${ARCHISO_WORK_DIR} -o ${BUILD_DIR} ${BUILD_ISO_DIR}
 }
 
 function main() {
