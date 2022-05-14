@@ -108,7 +108,7 @@ function install_packages() {
     load_packages "${CONFIGS_DIR}/packages.txt"
 
     local pacman_path="${CONFIGS_DIR}/bootstrap_pacman.conf"
-    pacstrap -cC ${pacman_path} /mnt ${PACKAGES[@]}
+    pacstrap -C ${pacman_path} /mnt ${PACKAGES[@]}
 }
 
 function generate_fstab() {
