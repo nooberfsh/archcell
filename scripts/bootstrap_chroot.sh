@@ -40,7 +40,10 @@ function setup_user() {
     passwd
 
     echo "create user: ${USER_NAME}"
-    userdel -r ${USER_NAME} || /bin/true
+    # delete user if exists
+    if id ${USER_NAME} &>/dev/null; then
+        userdel -r ${USER_NAME}
+    fi
     useradd -m $USER_NAME
     passwd $USER_NAME
 
