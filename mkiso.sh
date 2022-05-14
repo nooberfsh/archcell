@@ -59,6 +59,10 @@ function build_custom_iso() {
     mkdir -p ${INSTALLER_DIR}
     git --work-tree=${INSTALLER_DIR} checkout HEAD -- .
 
+    # https://wiki.archlinux.org/title/archiso#Adding_files_to_image
+    echo "copy our custom profiledef.sh to ${BUILD_ISO_DIR}"
+    cp "${CONFIGS_DIR}/profiledef.sh" "${BUILD_ISO_DIR}/"
+
     # https://wiki.archlinux.org/title/Archiso#Build_the_ISO
     echo "building iso"
     sudo rm -fr ${ARCHISO_WORK_DIR}

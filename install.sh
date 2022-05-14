@@ -132,7 +132,6 @@ function enter_chroot() {
     echo "enter arch chroot"
     local f="bootstrap_chroot.sh"
     local target="${ROOT_MOUNT_DIR}/root/${f}"
-    chmod +x ${target}
     cp "${SCRIPTS_DIR}/${f}" ${target}
     arch-chroot /mnt "/root/${f}"
 }
