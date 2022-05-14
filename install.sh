@@ -101,7 +101,7 @@ FDISK_CMDS
 }
 
 # install all the packages from local repo
-function install() {
+function install_packages() {
     echo "begin to install packages"
 
     echo "load packages..."
@@ -122,7 +122,7 @@ function enter_chroot() {
 
 function main() {
     partition_and_mount
-    install
+    install_packages
     generate_fstab
     enter_chroot
 }

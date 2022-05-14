@@ -17,3 +17,7 @@ ROOT_MOUNT_DIR="/mnt"
 
 # user
 USER_NAME="tom"
+
+# HOST
+HOST_NAME="arch"
+
