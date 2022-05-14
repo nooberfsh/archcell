@@ -5,7 +5,7 @@ set -e
 source "scripts/common.sh"
 source "scripts/configs.sh"
 
-function init() {
+function mkiso_init() {
     echo "init"
 
     echo "create build dir: ${BUILD_DIR}"
@@ -66,7 +66,7 @@ function build_custom_iso() {
 }
 
 function main() {
-    init
+    mkiso_init
     build_local_repo
     build_custom_iso
 }

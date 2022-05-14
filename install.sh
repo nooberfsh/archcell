@@ -5,6 +5,18 @@ set -e
 source "scripts/common.sh"
 source "scripts/configs.sh"
 
+function install_init() {
+    echo "init"
+
+    # https://wiki.archlinux.org/title/archiso#Adjusting_the_size_of_root_partition_on_the_fly
+    echo "adjust the size of the root partition"
+    mount -o remount,size=2G /run/archiso/cowspace
+
+    # https://stackoverflow.com/questions/1378331/bash-script-umount-a-device-but-dont-fail-if-its-not-mounted
+    echo "try un mount"
+    umount ${EFI_MOUNT_DIR} || /bin/true
+    umount ${ROOT_MOUNT_DIR} || /bin/true
+}
 
 # let user choose a disk to partition
 # the disk will be partitioned into two parts: esp and the main linux filesystem
@@ -121,6 +133,7 @@ function enter_chroot() {
 }
 
 function main() {
+    install_init
     partition_and_mount
     install_packages
     generate_fstab
