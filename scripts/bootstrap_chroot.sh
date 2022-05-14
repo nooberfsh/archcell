@@ -3,6 +3,7 @@
 set -e
 
 ESP_DIR="/boot/efi"
+CONFIGS_DIR="/root/configs"
 # USER
 USER_NAME="tom"
 # HOST
@@ -60,9 +61,19 @@ function setup_grub() {
     grub-mkconfig -o /boot/grub/grub.cfg
 }
 
+function setup_pacman() {
+    echo "setup pacman"
+    cp "${CONFIGS_DIR}/mirrorlist" "/etc/pacman.d/"
+    cp "${CONFIGS_DIR}/pacman.conf" "/etc/"
+    pacman -Sy && sudo pacman -S archlinuxcn-keyring
+}
+
 function main() {
+    # general system setting
     setup_time_locale
     setup_hostname
+    setup pacman
+
     setup_service
     setup_user
     setup_grub

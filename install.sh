@@ -131,8 +131,8 @@ function generate_fstab() {
 function enter_chroot() {
     echo "enter arch chroot"
     local f="bootstrap_chroot.sh"
-    local target="${ROOT_MOUNT_DIR}/root/${f}"
-    cp "${SCRIPTS_DIR}/${f}" ${target}
+    cp "${SCRIPTS_DIR}/${f}" "${ROOT_MOUNT_DIR}/root/${f}"
+    mv "${SCRIPTS_DIR}/configs" "${ROOT_MOUNT_DIR}/root/"
     arch-chroot /mnt "/root/${f}"
 }
 
