@@ -3,6 +3,7 @@
 # build
 BUILD_DIR="$(pwd)/build"
 CONFIGS_DIR="$(pwd)/configs"
+SCRIPTS_DIR="$(pwd)/scripts"
 BUILD_REPO_DIR="${BUILD_DIR}/repo"
 BUILD_ISO_DIR="${BUILD_DIR}/iso"
 REPO_NAME="custom"
