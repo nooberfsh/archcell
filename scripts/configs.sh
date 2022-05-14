@@ -17,9 +17,3 @@ ESP_DIR="/boot/efi"
 EFI_MOUNT_DIR="/mnt/boot/efi"
 ROOT_MOUNT_DIR="/mnt"
 
-# user
-USER_NAME="tom"
-
-# HOST
-HOST_NAME="arch"
-

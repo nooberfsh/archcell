@@ -129,7 +129,10 @@ function generate_fstab() {
 }
 
 function enter_chroot() {
-    arch-chroot /mnt "${SCRIPTS_DIR}/bootstrap_chroot.sh"
+    echo "enter arch chroot"
+    local f="bootstrap_chroot.sh"
+    cp "${SCRIPTS_DIR}/f" "${ROOT_MOUNT_DIR}/root/"
+    arch-chroot /mnt "/root/bootstrap_chroot.sh"
 }
 
 function main() {

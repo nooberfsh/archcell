@@ -2,7 +2,11 @@
 
 set -e
 
-source "scripts/configs.sh"
+ESP_DIR="/boot/efi"
+# USER
+USER_NAME="tom"
+# HOST
+HOST_NAME="arch"
 
 function setup_time_locale() {
     echo "setup time and locale"
@@ -16,7 +20,7 @@ function setup_time_locale() {
 
 function setup_hostname() {
     echo "setup hostname"
-    echo arch > /etc/hostname
+    echo $HOST_NAME > /etc/hostname
 }
 
 function setup_service() {
@@ -36,10 +40,12 @@ function setup_user() {
     passwd
 
     echo "create user: ${USER_NAME}"
+    userdel -r ${USER_NAME} || /bin/true
     useradd -m $USER_NAME
     passwd $USER_NAME
+
     echo "add group to ${USER_NAME}"
-    usermod -aG wheel
+    usermod -aG wheel ${USER_NAME}
     echo "create wheel group"
     echo "%wheel ALL=(ALL) ALL" > /etc/sudoers.d/wheel
 }
