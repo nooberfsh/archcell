@@ -88,13 +88,13 @@ function setup_sddm_locksreen() {
     cp "${CONFIGS_DIR}/theme.conf.user" "/usr/share/sddm/themes/breeze/"
 
     # set lockscreen background
-    local conf="home/${USER_NAME}/.config/kscreenlockerrc"
-    cp "${CONFIGS_DIR}/kscreenlockerrc" $conf
-    chown ${USER_NAME} $conf
-    chgrp ${USER_NAME} $conf
+    mkdir -p "/etc/xdg"
+    cp "${CONFIGS_DIR}/kscreenlockerrc" "/etc/xdg/"
 }
 
 function main() {
+    setup_user
+
     # general system setting
     setup_time_locale
     setup_hostname
@@ -103,7 +103,8 @@ function main() {
     setup_sddm_locksreen
 
     setup_service
-    setup_user
+
+    # set bootloader
     setup_grub
 }
 

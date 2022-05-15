@@ -145,6 +145,8 @@ function main() {
     install_packages
     generate_fstab
     enter_chroot
+
+    echo "install success!"
 }
 
 main
