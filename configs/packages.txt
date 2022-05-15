@@ -1,4 +1,4 @@
-# core
+######################### core
 base
 linux
 linux-firmware
@@ -8,10 +8,10 @@ efibootmgr
 sudo
 vi
 
-# arch repo
+######################### arch repo
 archlinuxcn-keyring
 
-# dev
+######################### dev
 base-devel
 cmake
 git
@@ -19,20 +19,20 @@ python
 llvm
 gcc
 clang
-# neovim
 neovim
+# clipboard tool used by neovim
 xsel
 
-# archlinux related
+######################### archlinux related
 archiso
 
-# cmd utilities
+######################### md utilities
 fd
 ripgrep
 tokei
 gnupg
 
-# kde
+######################### kde
 plasma
 sddm
 konsole
@@ -41,18 +41,18 @@ okular
 spectacle
 dolphin
 
-# input method
+######################### input method
 fcitx5-im
 fcitx5-chinese-addons
 fcitx5-pinyin-zhwiki
 
-# gui applications
+######################### gui applications
 firefox
 kgpg
 vlc
+# image viewer
 gwenview
-slack
 
-# fonts
+######################### fonts
 wqy-microhei
 
