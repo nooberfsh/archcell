@@ -27,6 +27,7 @@ archiso
 fd
 ripgrep
 tokei
+gnupg
 
 # kde
 plasma
@@ -44,6 +45,8 @@ fcitx5-pinyin-zhwiki
 
 # gui applications
 firefox
+kgpg
+vlc
 
 # fonts
 wqy-microhei
