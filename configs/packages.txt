@@ -8,6 +8,9 @@ efibootmgr
 sudo
 vi
 
+# arch repo
+archlinuxcn-keyring
+
 # dev
 base-devel
 cmake

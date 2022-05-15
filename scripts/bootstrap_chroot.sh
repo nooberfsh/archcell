@@ -65,7 +65,6 @@ function setup_pacman() {
     echo "setup pacman"
     cp "${CONFIGS_DIR}/mirrorlist" "/etc/pacman.d/"
     cp "${CONFIGS_DIR}/pacman.conf" "/etc/"
-    pacman -Sy && sudo pacman -S archlinuxcn-keyring
 }
 
 function setup_fcitx5() {
@@ -76,10 +75,14 @@ function setup_fcitx5() {
 function setup_sddm() {
     echo "setup sddm"
     # set images
-    mv "${CONFIGS_DIR}/images" "/usr/share/"
+    local target="/usr/share/images"
+    rm -fr $target
+    cp -r "${CONFIGS_DIR}/images" $target
     # set theme
+    mkdir -p "/etc/sddm.conf.d/"
     cp "${CONFIGS_DIR}/kde_settings.conf" "/etc/sddm.conf.d/"
     # set theme background
+    mkdir -p "/usr/share/sddm/themes/breeze/"
     cp "${CONFIGS_DIR}/theme.conf.user" "/usr/share/sddm/themes/breeze/"
 }
 
@@ -87,7 +90,7 @@ function main() {
     # general system setting
     setup_time_locale
     setup_hostname
-    setup pacman
+    setup_pacman
     setup_fcitx5
     setup_sddm
 
