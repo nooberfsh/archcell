@@ -50,6 +50,8 @@ fcitx5-pinyin-zhwiki
 firefox
 kgpg
 vlc
+gwenview
+slack
 
 # fonts
 wqy-microhei
