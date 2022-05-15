@@ -72,7 +72,7 @@ function setup_fcitx5() {
     cp "${CONFIGS_DIR}/environment" "/etc/"
 }
 
-function setup_sddm() {
+function setup_sddm_locksreen() {
     echo "setup sddm"
 
     # set wallpapers
@@ -83,9 +83,15 @@ function setup_sddm() {
     mkdir -p "/etc/sddm.conf.d/"
     cp "${CONFIGS_DIR}/kde_settings.conf" "/etc/sddm.conf.d/"
 
-    # set theme background
+    # set login background
     mkdir -p "/usr/share/sddm/themes/breeze/"
     cp "${CONFIGS_DIR}/theme.conf.user" "/usr/share/sddm/themes/breeze/"
+
+    # set lockscreen background
+    local conf="home/${USER_NAME}/.config/kscreenlockerrc"
+    cp "${CONFIGS_DIR}/kscreenlockerrc" $conf
+    chown ${USER_NAME} $conf
+    chgrp ${USER_NAME} $conf
 }
 
 function main() {
@@ -94,7 +100,7 @@ function main() {
     setup_hostname
     setup_pacman
     setup_fcitx5
-    setup_sddm
+    setup_sddm_locksreen
 
     setup_service
     setup_user
