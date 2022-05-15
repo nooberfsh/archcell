@@ -4,5 +4,5 @@ logo=/usr/share/sddm/themes/breeze/default-logo.svg
 type=image
 color=#1d99f3
 fontSize=10
-background=/usr/share/images/mac_wave.jpg
+background=/usr/share/wallpapers/MacWave/contents/images/5120x2880.jpg
 needsFullUserModel=false

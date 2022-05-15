@@ -74,13 +74,15 @@ function setup_fcitx5() {
 
 function setup_sddm() {
     echo "setup sddm"
-    # set images
-    local target="/usr/share/images"
-    rm -fr $target
-    cp -r "${CONFIGS_DIR}/images" $target
+
+    # set wallpapers
+    local target="/usr/share/wallpapers"
+    cp -r "${CONFIGS_DIR}/wallpapers/." $target
+
     # set theme
     mkdir -p "/etc/sddm.conf.d/"
     cp "${CONFIGS_DIR}/kde_settings.conf" "/etc/sddm.conf.d/"
+
     # set theme background
     mkdir -p "/usr/share/sddm/themes/breeze/"
     cp "${CONFIGS_DIR}/theme.conf.user" "/usr/share/sddm/themes/breeze/"
