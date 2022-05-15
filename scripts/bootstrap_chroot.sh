@@ -73,11 +73,23 @@ function setup_fcitx5() {
     cp "${CONFIGS_DIR}/environment" "/etc/"
 }
 
+function setup_sddm() {
+    echo "setup sddm"
+    # set images
+    mv "${CONFIGS_DIR}/images" "/usr/share/"
+    # set theme
+    cp "${CONFIGS_DIR}/kde_settings.conf" "/etc/sddm.conf.d/"
+    # set theme background
+    cp "${CONFIGS_DIR}/theme.conf.user" "/usr/share/sddm/themes/breeze/"
+}
+
 function main() {
     # general system setting
     setup_time_locale
     setup_hostname
     setup pacman
+    setup_fcitx5
+    setup_sddm
 
     setup_service
     setup_user
