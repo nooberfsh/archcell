@@ -26,11 +26,13 @@ xsel
 ######################### archlinux related
 archiso
 
-######################### md utilities
+######################### cmd utilities
 fd
 ripgrep
 tokei
 gnupg
+htop
+unzip
 
 ######################### kde
 plasma
@@ -40,6 +42,8 @@ ark
 okular
 spectacle
 dolphin
+yakuake
+kate
 
 ######################### input method
 fcitx5-im
