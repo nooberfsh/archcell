@@ -6,6 +6,7 @@ ESP_DIR="/boot/efi"
 CONFIGS_DIR="/root/configs"
 # USER
 USER_NAME="tom"
+LOGIN_SHELL="/bin/fish"
 # HOST
 HOST_NAME="arch"
 
@@ -45,7 +46,7 @@ function setup_user() {
     if id ${USER_NAME} &>/dev/null; then
         userdel -r ${USER_NAME}
     fi
-    useradd -m $USER_NAME
+    useradd -m $USER_NAME -s $LOGIN_SHELL
     passwd $USER_NAME
 
     echo "add group to ${USER_NAME}"

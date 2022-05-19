@@ -33,6 +33,7 @@ tokei
 gnupg
 htop
 unzip
+fish
 
 ######################### kde
 plasma
