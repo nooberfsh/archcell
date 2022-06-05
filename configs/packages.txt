@@ -8,10 +8,19 @@ efibootmgr
 sudo
 vi
 
+######################### amd
+amd-ucode
+mesa
+xf86-video-amdgpu
+vulkan-radeon
+libva-mesa-driver
+mesa-vdpau
+
+
 ######################### arch repo
 archlinuxcn-keyring
 
-######################### dev
+######################### dev core
 base-devel
 cmake
 git
@@ -22,6 +31,10 @@ clang
 neovim
 # clipboard tool used by neovim
 xsel
+
+######################### dev
+jdk11-openjdk
+sbt
 
 ######################### archlinux related
 archiso
@@ -58,6 +71,7 @@ kgpg
 vlc
 # image viewer
 gwenview
+dbeaver
 
 ######################### fonts
 wqy-microhei
