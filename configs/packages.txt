@@ -32,10 +32,6 @@ neovim
 # clipboard tool used by neovim
 xsel
 
-######################### dev
-jdk11-openjdk
-sbt
-
 ######################### archlinux related
 archiso
 
@@ -71,7 +67,6 @@ kgpg
 vlc
 # image viewer
 gwenview
-dbeaver
 
 ######################### fonts
 wqy-microhei
