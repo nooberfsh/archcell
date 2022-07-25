@@ -93,6 +93,16 @@ function setup_sddm_locksreen() {
     cp "${CONFIGS_DIR}/kscreenlockerrc" "/etc/xdg/"
 }
 
+# custom key map, map scancodes to keycodes.
+# https://wiki.archlinux.org/title/map_scancodes_to_keycodes
+# https://yulistic.gitlab.io/2017/12/linux-keymapping-with-udev-hwdb/
+function setup_keyboard() {
+    echo "setup keyboard"
+    cp "${CONFIGS_DIR}/10-my-modifiers.hwdb" "/etc/udev/hwdb.d/"
+
+    systemd-hwdb update
+}
+
 function main() {
     setup_user
 
@@ -102,6 +112,7 @@ function main() {
     setup_pacman
     setup_fcitx5
     setup_sddm_locksreen
+    setup_keyboard
 
     setup_service
 

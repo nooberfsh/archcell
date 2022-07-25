@@ -1,0 +1,8 @@
+# these maps are only for `ikbc w200`.
+
+evdev:atkbd:dmi:*
+ KEYBOARD_KEY_70039=leftctrl     # bind capslock to leftctrl
+
+evdev:name:*
+ KEYBOARD_KEY_70039=leftctrl     # bind capslock to leftctrl
+
