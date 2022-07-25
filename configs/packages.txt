@@ -32,6 +32,12 @@ neovim
 # clipboard tool used by neovim
 xsel
 openssh
+# aur helper
+paru
+# jvm related
+jdk8-openjdk
+jdk11-openjdk
+sbt
 
 ######################### archlinux related
 archiso
