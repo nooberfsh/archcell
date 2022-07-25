@@ -11,8 +11,10 @@ vi
 ######################### amd
 amd-ucode
 mesa
+lib32-mesa
 xf86-video-amdgpu
 vulkan-radeon
+lib32-vulkan-radeon
 libva-mesa-driver
 mesa-vdpau
 
@@ -74,6 +76,7 @@ kgpg
 vlc
 # image viewer
 gwenview
+steam
 
 ######################### fonts
 wqy-microhei
