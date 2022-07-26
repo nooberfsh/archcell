@@ -136,6 +136,9 @@ function enter_chroot() {
     local target="${ROOT_MOUNT_DIR}/root/configs"
     rm -fr $target
     cp -r "${CONFIGS_DIR}" $target
+
+    echo "try unmount ${DEV_MOUNT_DIR}"
+    umount ${DEV_MOUNT_DIR} || /bin/true
     arch-chroot /mnt "/root/${f}"
 }
 
