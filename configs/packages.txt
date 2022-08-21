@@ -64,6 +64,7 @@ spectacle
 dolphin
 yakuake
 kate
+partitionmanager
 
 ######################### input method
 fcitx5-im
