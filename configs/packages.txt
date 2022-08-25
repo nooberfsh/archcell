@@ -1,6 +1,7 @@
 ######################### core
 base
 linux
+linux-headers
 linux-firmware
 networkmanager
 grub
@@ -26,6 +27,7 @@ archlinuxcn-keyring
 base-devel
 cmake
 git
+libgit2
 python
 llvm
 gcc
@@ -53,6 +55,7 @@ htop
 unzip
 fish
 fisher
+openconnect
 
 ######################### kde
 plasma
