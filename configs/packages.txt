@@ -81,6 +81,8 @@ vlc
 # image viewer
 gwenview
 steam
+mangohud
+corectrl
 
 ######################### fonts
 wqy-microhei
