@@ -73,12 +73,14 @@ function setup_fcitx5() {
     cp "${CONFIGS_DIR}/environment" "/etc/"
 }
 
-function setup_sddm_locksreen() {
-    echo "setup sddm"
-
-    # set wallpapers
+function setup_wallpapaers() {
+    echo "set wallpapers"
     local target="/usr/share/wallpapers"
     cp -r "${CONFIGS_DIR}/wallpapers/." $target
+}
+
+function setup_sddm_locksreen() {
+    echo "setup sddm"
 
     # set theme
     mkdir -p "/etc/sddm.conf.d/"
@@ -111,6 +113,7 @@ function main() {
     setup_hostname
     setup_pacman
     setup_fcitx5
+    setup_wallpapaers
     setup_sddm_locksreen
     setup_keyboard
 
