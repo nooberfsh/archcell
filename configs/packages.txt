@@ -83,6 +83,7 @@ gwenview
 steam
 mangohud
 corectrl
+1password
 
 ######################### fonts
 wqy-microhei
