@@ -37,7 +37,7 @@ neovim
 xsel
 openssh
 # aur helper
-paru
+yay
 # jvm related
 jdk8-openjdk
 jdk11-openjdk
@@ -56,6 +56,7 @@ unzip
 fish
 fisher
 openconnect
+fio
 
 ######################### kde
 plasma
@@ -87,4 +88,3 @@ corectrl
 
 ######################### fonts
 wqy-microhei
-
