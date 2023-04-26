@@ -105,6 +105,14 @@ function setup_keyboard() {
     systemd-hwdb update
 }
 
+# reset keyring.
+# NOTE: this is a workaround. I found that install `archlinuxcn-keyring` will broke system's keyring
+# this may be caused by pacstrap's bugs.
+function setup_keyring() {
+  pacman-key --init
+  pacman-key --populate
+}
+
 function main() {
     setup_user
 
@@ -116,6 +124,9 @@ function main() {
     setup_wallpapaers
     setup_sddm_locksreen
     setup_keyboard
+
+    # NOTE: this is a workaround
+    setup_keyring
 
     setup_service
 
