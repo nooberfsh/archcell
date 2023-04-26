@@ -112,15 +112,19 @@ FDISK_CMDS
     mount --mkdir ${partitions[0]} $EFI_MOUNT_DIR
 }
 
-# install all the packages from local repo
+# install all packages from local repo
 function install_packages() {
     echo "begin to install packages"
 
     echo "load packages..."
-    load_packages "${CONFIGS_DIR}/packages.txt"
+    local packages=()
+    local packages_foreign=()
+    load_packages "${CONFIGS_DIR}/packages.txt" packages
+    load_packages "${CONFIGS_DIR}/packages_foreign.txt" packages_foreign
 
     local pacman_path="${CONFIGS_DIR}/bootstrap_pacman.conf"
-    pacstrap -C ${pacman_path} /mnt "${PACKAGES[@]}"
+    pacstrap -C ${pacman_path} /mnt "${packages[@]}"
+    pacstrap -C ${pacman_path} /mnt "${packages_foreign[@]}"
 }
 
 function generate_fstab() {

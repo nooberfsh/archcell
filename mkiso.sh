@@ -23,12 +23,14 @@ function build_local_repo() {
     echo "begin to build local repo"
 
     echo "load packages..."
-    load_packages "${CONFIGS_DIR}/packages.txt"
-    load_packages "${ARCHISO_PROFILE_DIR}/packages.x86_64"
+    local packages=()
+    load_packages "${CONFIGS_DIR}/packages.txt" packages
+    load_packages "${CONFIGS_DIR}/packages_foreign.txt" packages
+    load_packages "${ARCHISO_PROFILE_DIR}/packages.x86_64" packages
 
     # https://wiki.archlinux.org/title/Pacman/Tips_and_tricks#Installing_packages_from_a_CD/DVD_or_USB_stick
     echo "downloading packages "
-    sudo pacman -Syw --noconfirm --cachedir ${BUILD_REPO_DIR} --dbpath ${BUILD_REPO_DIR} "${PACKAGES[@]}"
+    sudo pacman -Syw --noconfirm --cachedir ${BUILD_REPO_DIR} --dbpath ${BUILD_REPO_DIR} "${packages[@]}"
     local suffixes=( xz zst )
     for p in "${suffixes[@]}"; do
         repo-add "${BUILD_REPO_DIR}/${REPO_NAME}.db.tar.gz" ${BUILD_REPO_DIR}/*.pkg.tar.${p}

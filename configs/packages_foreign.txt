@@ -1,0 +1,5 @@
+######################### archlinuxcn
+archlinuxcn-keyring
+1password
+# aur helper
+yay
