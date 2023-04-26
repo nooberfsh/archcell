@@ -44,10 +44,10 @@ function partition_and_mount() {
     local disknum=${#disks[@]}
     local diskidx=0
     if [[ $disknum == 0 ]]; then
-        echo "no disk found, abort"; exit -1
+        echo "no disk found, abort"; exit 1
     else
         echo "found ${disknum} disks"
-        for i in ${!disks[@]}; do
+        for i in "${!disks[@]}"; do
             echo "${i}: ${disks[$i]}"
         done
     fi
@@ -120,7 +120,7 @@ function install_packages() {
     load_packages "${CONFIGS_DIR}/packages.txt"
 
     local pacman_path="${CONFIGS_DIR}/bootstrap_pacman.conf"
-    pacstrap -C ${pacman_path} /mnt ${PACKAGES[@]}
+    pacstrap -C ${pacman_path} /mnt "${PACKAGES[@]}"
 }
 
 function generate_fstab() {
