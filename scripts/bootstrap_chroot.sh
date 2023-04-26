@@ -58,7 +58,7 @@ function setup_user() {
 function setup_grub() {
     # https://wiki.archlinux.org/title/GRUB
     echo "setup grub"
-    grub-install --target=x86_64-efi --efi-directory=${ESP_DIR} --bootloader-id=GRUB
+    grub-install --target=x86_64-efi --efi-directory=${ESP_DIR} --bootloader-id=Archlinux
     grub-mkconfig -o /boot/grub/grub.cfg
 }
 
