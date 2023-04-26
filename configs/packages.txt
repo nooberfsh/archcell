@@ -10,12 +10,13 @@ sudo
 vi
 
 ######################### amd
+# cpu
 amd-ucode
+
+# amdgpu
 mesa
-lib32-mesa
 xf86-video-amdgpu
 vulkan-radeon
-lib32-vulkan-radeon
 libva-mesa-driver
 mesa-vdpau
 
@@ -39,9 +40,7 @@ openssh
 # aur helper
 yay
 # jvm related
-jdk8-openjdk
 jdk11-openjdk
-sbt
 
 ######################### archlinux related
 archiso
@@ -81,9 +80,6 @@ kgpg
 vlc
 # image viewer
 gwenview
-steam
-mangohud
-corectrl
 1password
 
 ######################### fonts
