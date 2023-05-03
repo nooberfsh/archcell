@@ -22,6 +22,9 @@ mesa-vdpau
 
 ######################### dev core
 base-devel
+man
+lsof
+ethtool
 cmake
 git
 libgit2
@@ -70,6 +73,7 @@ fcitx5-pinyin-zhwiki
 
 ######################### gui applications
 firefox
+chromium
 kgpg
 vlc
 # image viewer
