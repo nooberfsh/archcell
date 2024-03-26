@@ -55,7 +55,7 @@ openconnect
 fio
 
 ######################### kde
-plasma
+plasma-meta
 sddm
 konsole
 ark
