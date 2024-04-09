@@ -6,7 +6,7 @@ ESP_DIR="/boot/efi"
 CONFIGS_DIR="/root/configs"
 # USER
 USER_NAME="tom"
-LOGIN_SHELL="/bin/fish"
+LOGIN_SHELL="/bin/bash"
 # HOST
 HOST_NAME="arch"
 

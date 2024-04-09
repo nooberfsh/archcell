@@ -36,8 +36,6 @@ neovim
 # clipboard tool used by neovim
 xsel
 openssh
-# jvm related
-jdk11-openjdk
 
 ######################### archlinux related
 archiso
@@ -49,8 +47,6 @@ tokei
 gnupg
 htop
 unzip
-fish
-fisher
 openconnect
 fio
 
