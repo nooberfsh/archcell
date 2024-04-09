@@ -73,7 +73,6 @@ fcitx5-pinyin-zhwiki
 
 ######################### gui applications
 firefox
-chromium
 kgpg
 vlc
 # image viewer

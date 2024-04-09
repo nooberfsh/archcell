@@ -25,7 +25,6 @@ function build_local_repo() {
     echo "load packages..."
     local packages=()
     load_packages "${CONFIGS_DIR}/packages.txt" packages
-    load_packages "${CONFIGS_DIR}/packages_foreign.txt" packages
     load_packages "${ARCHISO_PROFILE_DIR}/packages.x86_64" packages
 
     # https://wiki.archlinux.org/title/Pacman/Tips_and_tricks#Installing_packages_from_a_CD/DVD_or_USB_stick

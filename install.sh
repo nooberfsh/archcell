@@ -118,13 +118,10 @@ function install_packages() {
 
     echo "load packages..."
     local packages=()
-    local packages_foreign=()
     load_packages "${CONFIGS_DIR}/packages.txt" packages
-    load_packages "${CONFIGS_DIR}/packages_foreign.txt" packages_foreign
 
     local pacman_path="${CONFIGS_DIR}/bootstrap_pacman.conf"
     pacstrap -C ${pacman_path} /mnt "${packages[@]}"
-    pacstrap -C ${pacman_path} /mnt "${packages_foreign[@]}"
 }
 
 function generate_fstab() {

@@ -73,27 +73,6 @@ function setup_fcitx5() {
     cp "${CONFIGS_DIR}/environment" "/etc/"
 }
 
-function setup_wallpapaers() {
-    echo "set wallpapers"
-    local target="/usr/share/wallpapers"
-    cp -r "${CONFIGS_DIR}/wallpapers/." $target
-}
-
-function setup_sddm_locksreen() {
-    echo "setup sddm"
-
-    # set theme
-    mkdir -p "/etc/sddm.conf.d/"
-    cp "${CONFIGS_DIR}/kde_settings.conf" "/etc/sddm.conf.d/"
-
-    # set login background
-    mkdir -p "/usr/share/sddm/themes/breeze/"
-    cp "${CONFIGS_DIR}/theme.conf.user" "/usr/share/sddm/themes/breeze/"
-
-    # set lockscreen background
-    mkdir -p "/etc/xdg"
-    cp "${CONFIGS_DIR}/kscreenlockerrc" "/etc/xdg/"
-}
 
 # custom key map, map scancodes to keycodes.
 # https://wiki.archlinux.org/title/map_scancodes_to_keycodes
@@ -105,13 +84,6 @@ function setup_keyboard() {
     systemd-hwdb update
 }
 
-# reset keyring.
-# NOTE: this is a workaround. I found that install `archlinuxcn-keyring` will broke system's keyring
-# this may be caused by pacstrap's bugs.
-function setup_keyring() {
-  pacman-key --init
-  pacman-key --populate
-}
 
 function main() {
     setup_user
@@ -121,12 +93,7 @@ function main() {
     setup_hostname
     setup_pacman
     setup_fcitx5
-    setup_wallpapaers
-    setup_sddm_locksreen
     setup_keyboard
-
-    # NOTE: this is a workaround
-    setup_keyring
 
     setup_service
 
