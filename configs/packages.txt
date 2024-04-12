@@ -29,9 +29,6 @@ cmake
 git
 libgit2
 python
-llvm
-gcc
-clang
 neovim
 # clipboard tool used by neovim
 xsel
