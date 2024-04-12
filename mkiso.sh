@@ -46,13 +46,6 @@ function build_custom_iso() {
     # https://wiki.archlinux.org/title/Archiso#Installation
     cp -a ${ARCHISO_PROFILE_DIR}/. ${BUILD_ISO_DIR}
 
-    echo "modify archiso pacman.conf"
-    local p="${BUILD_ISO_DIR}/pacman.conf"
-    echo > $p
-    echo "[custom]" >> $p
-    echo "SigLevel = PackageRequired" >> $p
-    echo "Server = file://${BUILD_REPO_DIR}" >> $p
-
     echo "copy local repo to iso"
     cp -r ${BUILD_REPO_DIR} "${ISO_ROOT}"
 
