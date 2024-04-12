@@ -69,7 +69,6 @@ fcitx5-pinyin-zhwiki
 
 ######################### gui applications
 firefox
-kgpg
 vlc
 # image viewer
 gwenview
