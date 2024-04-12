@@ -29,7 +29,7 @@ function build_local_repo() {
     # https://wiki.archlinux.org/title/Pacman/Tips_and_tricks#Installing_packages_from_a_CD/DVD_or_USB_stick
     echo "downloading packages "
     sudo pacman -Syw --noconfirm --cachedir ${BUILD_REPO_DIR} --dbpath ${BUILD_REPO_DIR} "${packages[@]}"
-    local suffixes=( xz zst )
+    local suffixes=( zst )
     for p in "${suffixes[@]}"; do
         repo-add "${BUILD_REPO_DIR}/${REPO_NAME}.db.tar.gz" ${BUILD_REPO_DIR}/*.pkg.tar.${p}
     done
