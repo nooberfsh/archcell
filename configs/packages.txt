@@ -15,60 +15,20 @@ amd-ucode
 
 # amdgpu
 mesa
-xf86-video-amdgpu
-vulkan-radeon
-libva-mesa-driver
-mesa-vdpau
 
 ######################### dev core
 base-devel
 man
-lsof
-ethtool
-cmake
-git
-libgit2
-python
-neovim
-# clipboard tool used by neovim
-xsel
-openssh
-
-######################### archlinux related
-archiso
-
-######################### cmd utilities
-fd
-ripgrep
-tokei
-gnupg
-htop
-unzip
-openconnect
-fio
 
 ######################### kde
 plasma-meta
 sddm
 konsole
-ark
-okular
-spectacle
-dolphin
-yakuake
-kate
-partitionmanager
 
 ######################### input method
 fcitx5-im
 fcitx5-chinese-addons
 fcitx5-pinyin-zhwiki
-
-######################### gui applications
-firefox
-vlc
-# image viewer
-gwenview
 
 ######################### fonts
 wqy-microhei
