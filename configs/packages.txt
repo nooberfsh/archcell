@@ -4,6 +4,7 @@ linux
 linux-headers
 linux-firmware
 networkmanager
+iptables-nft
 grub
 efibootmgr
 sudo
