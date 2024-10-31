@@ -9,6 +9,7 @@ grub
 efibootmgr
 sudo
 vi
+mkinitcpio
 
 ######################### amd
 # cpu
@@ -19,12 +20,22 @@ mesa
 
 ######################### dev core
 base-devel
-man
+man-db
+pacman-contrib
 
 ######################### kde
 plasma-meta
 sddm
 konsole
+
+# 提供 phonon-qt6-backend, 被 phonon-qt6 依赖, phonon-qt6 被 plasma-meta 依赖
+phonon-qt6-vlc
+
+# 提供 qt6-multimedia-backend, 被 qt6-multimedia 依赖, qt6-multimedia 被 plasma-meta 依赖
+qt6-multimedia-ffmpeg
+
+# 提供 jack, 被 plasma-meta 依赖
+pipewire-jack
 
 ######################### input method
 fcitx5-im
@@ -33,3 +44,9 @@ fcitx5-pinyin-zhwiki
 
 ######################### fonts
 wqy-microhei
+
+# 提供 ttf-font, 被 plasma-meta 依赖
+noto-fonts
+
+# 提供 emoji-font, 被 plasma-meta 依赖
+noto-fonts-emoji
