@@ -15,8 +15,7 @@ mkinitcpio
 # cpu
 amd-ucode
 
-# amdgpu
-mesa
+nvidia
 
 ######################### dev core
 base-devel
