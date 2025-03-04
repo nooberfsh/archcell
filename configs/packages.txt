@@ -22,6 +22,7 @@ mesa
 base-devel
 man-db
 pacman-contrib
+nushell
 
 ######################### kde
 plasma-meta

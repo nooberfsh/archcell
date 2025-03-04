@@ -80,11 +80,12 @@ def generate_fstab [] {
 
 def enter_chroot [] {
     print "enter chroot"
-    cp "scripts/bootstrap_chroot.sh" $"($root_mount_dir)/root/"
+    let f = "install_chroot.nu"
+    cp $"scripts/($f)" $"($root_mount_dir)/root/"
     let dest = $"($root_mount_dir)/root/configs"
     rm -fr $dest
     cp -r configs $dest
-    arch-chroot /mnt "/root/bootstrap_chroot.sh"
+    arch-chroot /mnt $"/root/($f)"
     print "exit chroot"
 }
 
