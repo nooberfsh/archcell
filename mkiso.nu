@@ -47,6 +47,9 @@ def build_custom_iso [] {
     rm -fr $build_iso_dir
     cp -r $archiso_profile_dir $build_iso_dir
 
+    # add nushell to the installation env
+    "nushell" | save $"($build_iso_dir)/packages.x86_64" --append
+
     print "copy local repo to iso"
     cp -r $build_repo_dir $iso_root_dir
 
