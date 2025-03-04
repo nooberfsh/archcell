@@ -23,7 +23,6 @@ file_permissions=(
   ["/usr/local/bin/choose-mirror"]="0:0:755"
   ["/usr/local/bin/Installation_guide"]="0:0:755"
   ["/usr/local/bin/livecd-sound"]="0:0:755"
-  ["/root/installer/install.sh"]="0:0:755"
   ["/root/installer/install.nu"]="0:0:755"
   ["/root/installer/reset_grub.sh"]="0:0:755"
   ["/root/installer/scripts/bootstrap_chroot.sh"]="0:0:755"
