@@ -68,9 +68,5 @@ def build_custom_iso [] {
 }
 
 def load_packages [] {
-    let path = "configs/packages.txt"
-    open $path
-    | lines
-    | str trim
-    | filter {|it| ($it != "") and not ($it | str starts-with '#')}
+    open "configs/packages.nuon" | get core
 }

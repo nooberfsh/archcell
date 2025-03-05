@@ -14,6 +14,10 @@ def main [] {
     print "install success"
 }
 
+def "main packages" [] {
+    load_packages
+}
+
 # let user choose a disk to partition
 # the disk will be partitioned into two parts: esp and the main linux filesystem
 # esp will be 512M large where the rest disk room will be left to the main linux filesystem
@@ -90,9 +94,5 @@ def enter_chroot [] {
 }
 
 def load_packages [] {
-    let path = "configs/packages.txt"
-    open $path
-    | lines
-    | str trim
-    | filter {|it| ($it != "") and not ($it | str starts-with '#')}
+    open "configs/packages.nuon" | get core
 }
