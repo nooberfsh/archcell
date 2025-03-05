@@ -55,4 +55,41 @@
         noto-fonts-emoji
 
     ]
+    extra: [
+        # gui
+        firefox
+        ark # kde 解压缩
+        yakuake # F12 下拉 terminal
+        spectacle # 截图工具
+        kate # kde 编辑器
+        okular # kde 文档浏览器
+        qbittorrent
+        gwenview # kde 图片浏览器
+        partitionmanager
+        vlc
+
+        # dev tool
+        archiso
+        llvm
+        git
+        7zip
+        tokei
+        fd
+        ripgrep
+        zip
+        openssh
+        neovim
+        helix
+        clang
+        cmake
+        ethtool
+        fio
+        iperf
+        iperf3
+        keyd # 改键工具
+        nvme-cli
+        unrar
+        htop
+        gnupg
+    ]
 }
