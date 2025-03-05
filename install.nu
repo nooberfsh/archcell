@@ -1,5 +1,7 @@
 #!/usr/bin/env nu
 
+use scripts/common.nu *
+
 const root_mount_dir = "/mnt"
 const efi_mount_dir = "/mnt/boot/efi"
 
@@ -12,10 +14,6 @@ def main [] {
     enter_chroot
 
     print "install success"
-}
-
-def "main packages" [] {
-    load_packages
 }
 
 # let user choose a disk to partition
@@ -91,8 +89,4 @@ def enter_chroot [] {
     cp -r configs $dest
     arch-chroot /mnt $"/root/($f)"
     print "exit chroot"
-}
-
-def load_packages [] {
-    open "configs/packages.nuon" | get core
 }

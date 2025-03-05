@@ -1,5 +1,7 @@
 #!/usr/bin/env nu
 
+use scripts/common.nu *
+
 const build_dir = "build"
 const build_repo_dir = $"($build_dir)/repo"
 const build_iso_dir = $"($build_dir)/iso"
@@ -65,8 +67,4 @@ def build_custom_iso [] {
     print "building iso"
     sudo rm -fr $archiso_work_dir
     sudo mkarchiso -v -w $archiso_work_dir -o $build_dir $build_iso_dir
-}
-
-def load_packages [] {
-    open "configs/packages.nuon" | get core
 }
