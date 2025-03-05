@@ -16,6 +16,51 @@ def main [] {
     print "install success"
 }
 
+def "main reset_grub" [] {
+    print "reset grub start"
+
+    let disks = (
+        lsblk -ap -o "NAME,MOUNTPOINT,MODEL,FSTYPE,PARTTYPENAME" -J
+        | from json
+        | get blockdevices
+    )
+    let disks = (
+        $disks
+        | where ($it.children? | length) == 2 and ($it.children | get 0.parttypename) == 'EFI System'
+    )
+    if ($disks | is-empty) {
+        error make {msg: "can not find disk with EFI partition"}
+    }
+
+    if ($disks | length) != 1 {
+        error make {msg: "find multiple disks with EFI partition"}
+    }
+
+    let disk = $disks | first
+    print $disk
+
+    let efi_partition = $disk.children.0
+    let root_partition = $disk.children.1
+    print $efi_partition
+    print $root_partition
+
+    if $root_partition.mountpoint == null {
+        mount $root_partition.name $root_mount_dir
+    } else {
+        print $"found root partition has already mounted at ($root_partition.mountpoint)"
+    }
+
+    if $efi_partition.mountpoint == null {
+        mount $efi_partition.name $efi_mount_dir
+    } else {
+        print $"found efi partition has already mounted at ($efi_partition.mountpoint)"
+    }
+
+    enter_chroot "reset_grub"
+
+    print "reset grub success"
+}
+
 # let user choose a disk to partition
 # the disk will be partitioned into two parts: esp and the main linux filesystem
 # esp will be 512M large where the rest disk room will be left to the main linux filesystem
@@ -80,13 +125,15 @@ def generate_fstab [] {
     print "generate success"
 }
 
-def enter_chroot [] {
+def enter_chroot [
+    params: string = ""
+] {
     print "enter chroot"
     let f = "install_chroot.nu"
     cp $"scripts/($f)" $"($root_mount_dir)/root/"
     let dest = $"($root_mount_dir)/root/configs"
     rm -fr $dest
     cp -r configs $dest
-    arch-chroot /mnt $"/root/($f)"
+    arch-chroot /mnt $"/root/($f)" $params
     print "exit chroot"
 }

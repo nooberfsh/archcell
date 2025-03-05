@@ -26,6 +26,4 @@ file_permissions=(
   ["/root/installer/install.nu"]="0:0:755"
   ["/root/installer/scripts/install_chroot.nu"]="0:0:755"
   ["/root/installer/scripts/common.nu"]="0:0:755"
-  ["/root/installer/reset_grub.sh"]="0:0:755"
-  ["/root/installer/scripts/setup_grub_chroot.sh"]="0:0:755"
 )

@@ -18,6 +18,10 @@ def main [] {
     print "bootstrap configuration success"
 }
 
+def "main reset_grub" [] {
+    setup_grub
+}
+
 def setup_user [] {
     print "setup user"
     
