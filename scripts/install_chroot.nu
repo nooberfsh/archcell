@@ -1,7 +1,6 @@
 #!/usr/bin/env nu
 
 const hostname = "arch"
-const user_name = "tom"
 const configs_dir = "/root/configs"
 const esp_dir = "/boot/efi"
 const login_shell = "/bin/bash"
@@ -21,21 +20,24 @@ def main [] {
 
 def setup_user [] {
     print "setup user"
+    
+    print "set username:"
+    let username = input '>>'
 
-    print $"create user: ($user_name)"
-    if (sys users | where name == $user_name | is-not-empty) {
-        userdel -r $user_name
+    print $"create user: ($username)"
+    if (sys users | where name == $username | is-not-empty) {
+        userdel -r $username
     }
-    useradd -m $user_name -s $login_shell
+    useradd -m $username -s $login_shell
 
     print "create wheel group"
     "%wheel ALL=(ALL) ALL" | save /etc/sudoers.d/wheel -f
-    print $"append ($user_name) to group: wheel"
-    usermod -aG wheel $user_name
+    print $"append ($username) to group: wheel"
+    usermod -aG wheel $username
 
     print "set password:"
-    let password = input
-    $"($password)" | passwd $user_name -s
+    let password = input -s '>>'
+    $"($password)" | passwd $username -s
     $"($password)" | passwd root -s
 
     print "setup user success"
