@@ -20,6 +20,10 @@ def main [] {
     print "bootstrap configuration success"
 }
 
+def "main reset_bootloader" [] {
+    setup_bootloader
+}
+
 def setup_user [] {
     print "setup user"
     

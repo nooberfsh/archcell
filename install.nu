@@ -12,6 +12,7 @@ def main [] {
     install_packages $profile.packages
     generate_fstab
     enter_chroot
+    dirty $profile
 
     print "install success"
 }
@@ -56,7 +57,7 @@ def "main reset_bootloader" [] {
         print $"found efi partition has already mounted at ($efi_partition.mountpoint)"
     }
 
-    # TODO
+    enter_chroot "reset_bootloader"
 
     print "reset bootloader success"
 }
@@ -124,7 +125,9 @@ def generate_fstab [] {
     print "generate success"
 }
 
-def enter_chroot [] {
+def enter_chroot [
+    cmd: string = ""
+] {
     print "enter chroot"
     let f = "install_chroot.nu"
     cp $"scripts/($f)" $"($root_mount_dir)/root/"
@@ -132,6 +135,19 @@ def enter_chroot [] {
     let dest = $"($root_mount_dir)/root/configs"
     rm -fr $dest
     cp -r configs $dest
-    arch-chroot /mnt $"/root/($f)"
+    arch-chroot /mnt $"/root/($f)" $cmd
     print "exit chroot"
+}
+
+def dirty [profile] {
+    print "handle dirty stuff"
+    for service in $profile.services {
+        # https://wiki.archlinux.org/title/Systemd-resolved#DNS
+        if $service == "systemd-resolved" {
+            print "handing /etc/resolv.conf"
+            ln -sf ../run/systemd/resolve/stub-resolv.conf /mnt/etc/resolv.conf
+        }
+    }
+
+    print "handle dirty stuff success"
 }
