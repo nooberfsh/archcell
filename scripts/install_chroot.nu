@@ -3,7 +3,7 @@
 const hostname = "arch"
 const configs_dir = "/root/configs"
 const esp_dir = "/boot"
-const login_shell = "/bin/bash"
+const login_shell = "/bin/nu"
 
 def main [] {
     print "bootstrap configuration"
