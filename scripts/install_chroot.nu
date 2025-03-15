@@ -7,19 +7,17 @@ const login_shell = "/bin/bash"
 
 def main [] {
     print "bootstrap configuration"
-       
+
+    let profile = open "/root/profile.nuon"
+
     setup_user
     setup_time_zone_and_locale
     setup_hostname
     setup_pacman
-    setup_service
-    setup_grub
-    
-    print "bootstrap configuration success"
-}
+    setup_service $profile
+    setup_bootloader
 
-def "main reset_grub" [] {
-    setup_grub
+    print "bootstrap configuration success"
 }
 
 def setup_user [] {
@@ -72,19 +70,18 @@ def setup_pacman [] {
     print "setup pacman success"
 }
 
-def setup_service [] {
+def setup_service [profile] {
     print "setup service"
-    
-    print "enable sddm"
-    systemctl enable sddm
 
-    print "enable network"
-    systemctl enable NetworkManager
-    
+    for service in $profile.services {
+        print $"enable ($service)"
+        systemctl enable $service
+    }
+
     print "setup service success"
 }
 
-def setup_grub [] {
+def setup_bootloader [] {
     # https://wiki.archlinux.org/title/GRUB
     print "setup grub"
     grub-install --target=x86_64-efi $"--efi-directory=($esp_dir)" --bootloader-id=ArchLinux

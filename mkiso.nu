@@ -3,48 +3,51 @@
 use scripts/common.nu *
 
 const build_dir = "build"
-const build_repo_dir = $"($build_dir)/repo"
-const build_iso_dir = $"($build_dir)/iso"
 const repo_name = "custom"
-const repo_file = $"($build_repo_dir)/($repo_name).db.tar.gz"
 const archiso_profile_dir = "/usr/share/archiso/configs/releng"
-const iso_root_dir = $"($build_iso_dir)/airootfs/root"
-const installer_dir = $"($iso_root_dir)/installer"
 const configs_dir = "configs"
 const archiso_work_dir = "/tmp/archiso-tmp"
 
 def main [] {
     print "mkiso start"
 
+    print "select a profile to install:"
+    let profile_names = get_profiles
+    let profile_name = $profile_names | input list
+    print $"select profile: ($profile_name)"
+
     print "build local repo"
-    build_local_repo
+    build_local_repo $profile_name
 
     print "build custom iso"
-    build_custom_iso
+    build_custom_iso $profile_name
 
     print "mkiso success"
 }
 
-def build_local_repo [] {
-    let packages = load_packages
+def build_local_repo [profile_name: string] {
+    let profile = load_profile $profile_name
+    let packages = $profile.packages
     print $"begin to handle ($packages | length) packages"
 
+    let build_repo_dir = build_repo_dir $profile_name
     mkdir $build_repo_dir
     # https://wiki.archlinux.org/title/Pacman/Tips_and_tricks#Installing_packages_from_a_CD/DVD_or_USB_stick
     sudo pacman -Syw --cachedir $build_repo_dir --dbpath $build_repo_dir ...$packages
     let package_zsts = ls $build_repo_dir
         | where ($it.name | str ends-with '.pkg.tar.zst')
         | get name
-    repo-add ($repo_file) ...$package_zsts
+    repo-add (repo_file $profile_name) ...$package_zsts
 }
-
 
 # build a custom iso
 #
 # all packages needed to build iso will be fetched from the local repo
 # the local repo will be copied to `/root` for bootstrap in the offline mode
 # the project will be copied to `/root`
-def build_custom_iso [] {
+def build_custom_iso [profile_name: string] {
+    let build_iso_dir = build_iso_dir $profile_name
+    let installer_dir = installer_dir $profile_name
     # https://wiki.archlinux.org/title/Archiso#Installation
     rm -fr $build_iso_dir
     cp -r $archiso_profile_dir $build_iso_dir
@@ -53,11 +56,12 @@ def build_custom_iso [] {
     "nushell" | save $"($build_iso_dir)/packages.x86_64" --append
 
     print "copy local repo to iso"
-    cp -r $build_repo_dir $iso_root_dir
+    cp -r (build_repo_dir $profile_name) (iso_root_dir $profile_name)
 
     print "copy scripts and configs to iso"
     mkdir $installer_dir
-    ls | where name != "build" | each {cp -r $in.name $installer_dir}
+    ls | where name != "build" and name != "profiles" | each {cp -r $in.name $installer_dir}
+    cp_profile $profile_name $installer_dir
 
     # https://wiki.archlinux.org/title/archiso#Adding_files_to_image
     print $"copy our custom profiledef.sh to ($build_iso_dir)"
@@ -66,5 +70,29 @@ def build_custom_iso [] {
     # https://wiki.archlinux.org/title/Archiso#Build_the_ISO
     print "building iso"
     sudo rm -fr $archiso_work_dir
-    sudo mkarchiso -v -w $archiso_work_dir -o $build_dir $build_iso_dir
+    sudo mkarchiso -v -w $archiso_work_dir -o (build_profile_dir $profile_name) $build_iso_dir
+}
+
+def build_profile_dir [profile_name: string] {
+    $"($build_dir)/($profile_name)"
+}
+
+def build_repo_dir [profile_name: string] {
+    $"(build_profile_dir $profile_name)/repo"
+}
+
+def build_iso_dir [profile_name: string] {
+    $"(build_profile_dir $profile_name)/iso"
+}
+
+def repo_file [profile_name: string] {
+    $"(build_repo_dir $profile_name)/($repo_name).db.tar.gz"
+}
+
+def iso_root_dir [profile_name: string] {
+    $"(build_iso_dir $profile_name)/airootfs/root"
+}
+
+def installer_dir [profile_name: string] {
+    $"(iso_root_dir $profile_name)/installer"
 }

@@ -1,23 +1,23 @@
 #!/usr/bin/env nu
 
-use scripts/common.nu *
-
 const root_mount_dir = "/mnt"
 const efi_mount_dir = "/mnt/boot"
 
 def main [] {
     print "install start"
 
+    let profile = open "profile.nuon"
+
     partition_and_mount
-    install_packages
+    install_packages $profile.packages
     generate_fstab
     enter_chroot
 
     print "install success"
 }
 
-def "main reset_grub" [] {
-    print "reset grub start"
+def "main reset_bootloader" [] {
+    print "reset bootloader start"
 
     let disks = (
         lsblk -ap -o "NAME,MOUNTPOINT,MODEL,FSTYPE,PARTTYPENAME" -J
@@ -56,9 +56,9 @@ def "main reset_grub" [] {
         print $"found efi partition has already mounted at ($efi_partition.mountpoint)"
     }
 
-    enter_chroot "reset_grub"
+    # TODO
 
-    print "reset grub success"
+    print "reset bootloader success"
 }
 
 # let user choose a disk to partition
@@ -112,9 +112,8 @@ def partition_and_mount [] {
     print "partition and mount success"
 }
 
-def install_packages [] {
+def install_packages [packages] {
     print "install packages"
-    let packages = load_packages
     pacstrap -C "configs/bootstrap_pacman.conf" /mnt ...$packages
     print "install packages success"
 }
@@ -125,15 +124,14 @@ def generate_fstab [] {
     print "generate success"
 }
 
-def enter_chroot [
-    params: string = ""
-] {
+def enter_chroot [] {
     print "enter chroot"
     let f = "install_chroot.nu"
     cp $"scripts/($f)" $"($root_mount_dir)/root/"
+    cp "profile.nuon" $"($root_mount_dir)/root/"
     let dest = $"($root_mount_dir)/root/configs"
     rm -fr $dest
     cp -r configs $dest
-    arch-chroot /mnt $"/root/($f)" $params
+    arch-chroot /mnt $"/root/($f)"
     print "exit chroot"
 }

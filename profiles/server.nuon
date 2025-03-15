@@ -1,0 +1,23 @@
+# server profile
+{
+    packages: [
+        base
+        linux-lts
+        linux-firmware
+        amd-ucode
+        intel-ucode
+        iptables-nft
+        mkinitcpio
+        sudo
+        neovim
+        man-db
+        man-pages
+        nushell
+        grub
+        efibootmgr
+    ]
+    services: [
+        systemd-networkd
+        systemd-resolved
+    ]
+}
