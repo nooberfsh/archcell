@@ -2,8 +2,8 @@
 
 def main [] {}
 
-def "main packages" [] {
-    load_packages
+def "main profiles" [] {
+    get_profiles
 }
 
 export def get_profiles [] {
@@ -30,16 +30,4 @@ export def cp_profile [
 ] {
   let s = $"profiles/($name).nuon"
   cp $s $"($dest)/profile.nuon"
-}
-
-export def load_packages [] {
-    let packages = open "configs/packages.nuon"
-    let profiles = ['default', 'minimum']
-    print "choose which profile to use:"
-    let profile = $profiles | input list
-    match $profile {
-        'default' => ($packages.core ++ $packages.extra)
-        'minimum' => $packages.core
-         _ => (error make {msg: $"invalid profile: ($profile)"})
-    }
 }
