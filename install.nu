@@ -3,7 +3,7 @@
 use scripts/common.nu *
 
 const root_mount_dir = "/mnt"
-const efi_mount_dir = "/mnt/boot/efi"
+const efi_mount_dir = "/mnt/boot"
 
 def main [] {
     print "install start"

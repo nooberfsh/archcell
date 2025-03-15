@@ -2,7 +2,7 @@
 
 const hostname = "arch"
 const configs_dir = "/root/configs"
-const esp_dir = "/boot/efi"
+const esp_dir = "/boot"
 const login_shell = "/bin/bash"
 
 def main [] {
