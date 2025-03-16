@@ -91,6 +91,12 @@
         unrar
         htop
         gnupg
+        # https://wiki.archlinux.org/title/VirtualBox
+        virtualbox-host-modules-arch
+
+        # archlinuxcn
+        archlinuxcn-keyring
+        yay
     ]
     services: [
         systemd-networkd
