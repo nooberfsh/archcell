@@ -1,6 +1,5 @@
 #!/usr/bin/env nu
 
-const hostname = "arch"
 const configs_dir = "/root/configs"
 const esp_dir = "/boot"
 const login_shell = "/bin/nu"
@@ -63,6 +62,8 @@ def setup_time_zone_and_locale [] {
 
 def setup_hostname [] {
     print "setup hostname"
+    print "set hostname:"
+    let hostname = input '>>'
     $hostname | save /etc/hostname
     print "setup hostname success"
 }
