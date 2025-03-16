@@ -15,9 +15,11 @@
         nushell
         grub
         efibootmgr
+        openssh
     ]
     services: [
         systemd-networkd
         systemd-resolved
+        sshd
     ]
 }
