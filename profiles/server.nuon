@@ -16,6 +16,7 @@
         grub
         efibootmgr
         openssh
+        wl-clipboard
     ]
     services: [
         systemd-networkd
