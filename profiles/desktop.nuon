@@ -55,8 +55,6 @@
         noto-fonts-emoji
     ]
     services: [
-        systemd-networkd
-        systemd-resolved
         sddm
     ]
 }

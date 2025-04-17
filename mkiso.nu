@@ -11,22 +11,30 @@ const archiso_work_dir = "/tmp/archiso-tmp"
 def main [] {
     print "mkiso start"
 
-    print "select a profile to install:"
+    print "select a profile:"
     let profile_names = get_profiles
     let profile_name = $profile_names | input list
     print $"select profile: ($profile_name)"
 
+    print "\nselect a network profile:"
+    let network_profile_names = get_network_profiles
+    let network_profile_name = $network_profile_names | input list
+    print $"select network profile: ($network_profile_name)"
+
+    let core_profile = load_profile $profile_name
+    let network_profile = load_network_profile $network_profile_name
+    let profile = merge_profile $core_profile $network_profile
+
     print "build local repo"
-    build_local_repo $profile_name
+    build_local_repo $profile_name $profile
 
     print "build custom iso"
-    build_custom_iso $profile_name
+    build_custom_iso $profile_name $profile
 
     print "mkiso success"
 }
 
-def build_local_repo [profile_name: string] {
-    let profile = load_profile $profile_name
+def build_local_repo [profile_name: string, profile] {
     let packages = $profile.packages
     print $"begin to handle ($packages | length) packages"
 
@@ -45,7 +53,7 @@ def build_local_repo [profile_name: string] {
 # all packages needed to build iso will be fetched from the local repo
 # the local repo will be copied to `/root` for bootstrap in the offline mode
 # the project will be copied to `/root`
-def build_custom_iso [profile_name: string] {
+def build_custom_iso [profile_name: string, profile] {
     let build_iso_dir = build_iso_dir $profile_name
     let installer_dir = installer_dir $profile_name
     # https://wiki.archlinux.org/title/Archiso#Installation
@@ -61,7 +69,7 @@ def build_custom_iso [profile_name: string] {
     print "copy scripts and configs to iso"
     mkdir $installer_dir
     ls | where name != "build" and name != "profiles" | each {cp -r $in.name $installer_dir}
-    cp_profile $profile_name $installer_dir
+    $profile | save ($installer_dir + "/profile.nuon")
 
     # https://wiki.archlinux.org/title/archiso#Adding_files_to_image
     print $"copy our custom profiledef.sh to ($build_iso_dir)"

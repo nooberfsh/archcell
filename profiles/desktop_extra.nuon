@@ -103,8 +103,6 @@
         yay
     ]
     services: [
-        systemd-networkd
-        systemd-resolved
         sddm
         keyd
     ]

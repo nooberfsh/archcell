@@ -19,8 +19,6 @@
         wl-clipboard
     ]
     services: [
-        systemd-networkd
-        systemd-resolved
         sshd
     ]
 }

@@ -1,0 +1,9 @@
+# networkmanager network profile
+{
+    packages: [
+        networkmanager
+    ]
+    services: [
+        NetworkManager
+    ]
+}
