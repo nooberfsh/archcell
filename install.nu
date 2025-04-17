@@ -132,6 +132,10 @@ def enter_chroot [
     let f = "install_chroot.nu"
     cp $"scripts/($f)" $"($root_mount_dir)/root/"
     cp "profile.nuon" $"($root_mount_dir)/root/"
+    let archconfig = "archconfig.tar.gz"
+    if ($archconfig | path exists) {
+        cp $archconfig $"($root_mount_dir)/root/"
+    }
     let dest = $"($root_mount_dir)/root/configs"
     rm -fr $dest
     cp -r configs $dest

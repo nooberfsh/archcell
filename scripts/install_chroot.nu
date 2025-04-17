@@ -45,6 +45,16 @@ def setup_user [] {
     $"($password)" | passwd $username -s
     $"($password)" | passwd root -s
 
+    let archconfig = "/root/archconfig.tar.gz"
+    if ($archconfig | path exists) {
+        let user_home = $"/home/($username)"
+        do {
+          cd $user_home
+          tar -xzf $archconfig
+          chown -hR $"($username):($username)" "archconfig"
+        }
+    }
+
     print "setup user success"
 }
 
