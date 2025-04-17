@@ -72,6 +72,9 @@ def setup_pacman [] {
     print "setup pacman"
     cp $"($configs_dir)/mirrorlist" "/etc/pacman.d/"
     cp $"($configs_dir)/pacman.conf" "/etc/"
+
+    pacman-key --init
+    pacman-key --populate
     print "setup pacman success"
 }
 
