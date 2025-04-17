@@ -57,6 +57,7 @@
         ######## NOTE: the above package should stay sync with the desktop profile
         #################### extra packages ######################################
         # gui
+        dolphin # 文件浏览器
         firefox
         ark # kde 解压缩
         yakuake # F12 下拉 terminal
@@ -94,6 +95,8 @@
         gnupg
         # https://wiki.archlinux.org/title/VirtualBox
         virtualbox-host-modules-arch
+        gitui
+
 
         # archlinuxcn
         archlinuxcn-keyring
