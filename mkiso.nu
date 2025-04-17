@@ -8,7 +8,9 @@ const archiso_profile_dir = "/usr/share/archiso/configs/releng"
 const configs_dir = "configs"
 const archiso_work_dir = "/tmp/archiso-tmp"
 
-def main [] {
+def main [
+  --ignore_build_repo # 忽略构建本地 repo.
+] {
     print "mkiso start"
 
     print "select a profile:"
@@ -25,8 +27,10 @@ def main [] {
     let network_profile = load_network_profile $network_profile_name
     let profile = merge_profile $core_profile $network_profile
 
-    print "build local repo"
-    build_local_repo $profile_name $profile
+    if not $ignore_build_repo {
+      print "build local repo"
+      build_local_repo $profile_name $profile      
+    }
 
     print "build custom iso"
     build_custom_iso $profile_name $profile
@@ -68,8 +72,20 @@ def build_custom_iso [profile_name: string, profile] {
 
     print "copy scripts and configs to iso"
     mkdir $installer_dir
+    # generate profile
     ls | where name != "build" and name != "profiles" | each {cp -r $in.name $installer_dir}
     $profile | save ($installer_dir + "/profile.nuon")
+
+    # install archconfig
+    let archconfig_dir = $env.HOME + "/archconfig"
+    if ($archconfig_dir | path exists ) {
+      print "install archconfig"
+      let tar_name = $installer_dir + "/archconfig.tar.gz" | path expand
+      do {
+        cd $env.HOME
+        tar czf $tar_name "archconfig"        
+      }
+    }
 
     # https://wiki.archlinux.org/title/archiso#Adding_files_to_image
     print $"copy our custom profiledef.sh to ($build_iso_dir)"
