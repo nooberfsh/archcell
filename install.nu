@@ -139,7 +139,10 @@ def enter_chroot [
     let dest = $"($root_mount_dir)/root/configs"
     rm -fr $dest
     cp -r configs $dest
-    arch-chroot /mnt $"/root/($f)" $cmd
+
+    # -S 选项是为了 bootctl 能够在 arch-chroot 环境创建正确 UEFI boot entry
+    # https://wiki.archlinux.org/title/Systemd-boot#Installing_the_UEFI_boot_manager
+    arch-chroot -S /mnt $"/root/($f)" $cmd
     print "exit chroot"
 }
 

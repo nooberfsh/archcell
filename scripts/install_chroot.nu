@@ -100,9 +100,6 @@ def setup_service [profile] {
 }
 
 def setup_bootloader [] {
-    # https://wiki.archlinux.org/title/GRUB
-    print "setup grub"
-    grub-install --target=x86_64-efi $"--efi-directory=($esp_dir)" --bootloader-id=ArchLinux
-    grub-mkconfig -o /boot/grub/grub.cfg
-    print "setup grub success"
+    bootctl install
+    print "setup systemd-boot success"
 }

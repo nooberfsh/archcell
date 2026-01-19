@@ -13,8 +13,6 @@
         man-db
         man-pages
         nushell
-        grub
-        efibootmgr
         openssh
         wl-clipboard
     ]
