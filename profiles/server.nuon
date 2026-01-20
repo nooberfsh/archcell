@@ -2,7 +2,7 @@
 {
     packages: [
         base
-        linux-lts
+        linux
         linux-firmware
         amd-ucode
         intel-ucode

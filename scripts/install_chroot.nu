@@ -23,6 +23,10 @@ def "main reset_bootloader" [] {
     setup_bootloader
 }
 
+def "main reset_systemd_boot_config" [] {
+    setup_systemd_boot_config $esp_dir
+}
+
 def setup_user [] {
     print "setup user"
     
@@ -100,6 +104,44 @@ def setup_service [profile] {
 }
 
 def setup_bootloader [] {
+    print "steup systemd-boot"
+
     bootctl install
+    setup_systemd_boot_config $esp_dir
+
     print "setup systemd-boot success"
+}
+
+# https://wiki.archlinux.org/title/Systemd-boot#Configuration
+def setup_systemd_boot_config [esp] {
+    print "generate systemd boot config"
+    let root_part = findmnt -no SOURCE /
+    let root_part_uuid = blkid $root_part -o json | from json | get uuid
+
+    if not ($"($esp)/loader" | path exists) {
+        mkdir $"($esp)/loader"
+    }
+
+    if not ($"($esp)/loader/entries" | path exists) {
+        mkdir $"($esp)/loader/entries"
+    }
+    
+    let loader = "
+default  arch.conf
+timeout  4
+console-mode max
+editor   no
+"
+
+    let entry = $"
+title   Arch Linux
+linux   /vmlinuz-linux
+initrd  /initramfs-linux.img
+options root=UUID=($root_part_uuid) rw        
+"
+
+    $loader | save -f $"($esp)/loader/loader.conf"
+    $entry | save -f $"($esp)/loader/entries/arch.conf"
+    
+    print "generate systemd boot config success"
 }
