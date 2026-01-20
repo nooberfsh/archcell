@@ -10,8 +10,8 @@ export def get_profiles [] {
     let profiles = (
         ls -s profiles
         | get name
-        | filter {|el| $el | str ends-with '.nuon'}
-        | str replace '.nuon' ''
+        | filter {|el| $el | str ends-with '.cue'}
+        | str replace '.cue' ''
     )
 
     $profiles
@@ -21,6 +21,6 @@ export def get_profiles [] {
 export def load_profile [
     name: string
 ] {
-  let s = $"profiles/($name).nuon"
-  open $s
+  let s = $"profiles/($name).cue"
+  cue export $s | from json
 }
