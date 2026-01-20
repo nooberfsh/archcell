@@ -10,7 +10,6 @@ packages: [
     "neovim",
     "man-db",
     "man-pages",
-    "nushell",
     "openssh",
     "wl-clipboard",
 ]
@@ -23,7 +22,8 @@ services: [
 ]
 
 user: {
-    name: "tom"
+	name:        "tom"
+	login_shell: "/bin/bash"
 }
 
 host: {

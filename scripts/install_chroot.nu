@@ -2,7 +2,6 @@
 
 const configs_dir = "/root/configs"
 const esp_dir = "/boot"
-const login_shell = "/bin/nu"
 
 def main [] {
     print "bootstrap configuration"
@@ -37,7 +36,7 @@ def setup_user [profile] {
     if (sys users | where name == $username | is-not-empty) {
         userdel -r $username
     }
-    useradd -m $username -s $login_shell
+    useradd -m $username -s $profile.user.login_shell
 
     print "create wheel group"
     "%wheel ALL=(ALL) ALL" | save /etc/sudoers.d/wheel -f
