@@ -18,5 +18,8 @@
     ]
     services: [
         sshd
+        # systemd network
+        systemd-networkd
+        systemd-resolved
     ]
 }

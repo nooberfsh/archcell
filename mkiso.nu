@@ -18,14 +18,7 @@ def main [
     let profile_name = $profile_names | input list
     print $"select profile: ($profile_name)"
 
-    print "\nselect a network profile:"
-    let network_profile_names = get_network_profiles
-    let network_profile_name = $network_profile_names | input list
-    print $"select network profile: ($network_profile_name)"
-
-    let core_profile = load_profile $profile_name
-    let network_profile = load_network_profile $network_profile_name
-    let profile = merge_profile $core_profile $network_profile
+    let profile = load_profile $profile_name
 
     if not $ignore_build_repo {
       print "build local repo"
