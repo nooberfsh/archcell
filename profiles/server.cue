@@ -21,3 +21,11 @@ services: [
     "systemd-networkd",
     "systemd-resolved",
 ]
+
+user: {
+    name: "tom"
+}
+
+host: {
+    name: "noob2"
+}

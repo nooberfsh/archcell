@@ -9,9 +9,9 @@ def main [] {
 
     let profile = open "/root/profile.nuon"
 
-    setup_user
+    setup_user $profile
     setup_time_zone_and_locale
-    setup_hostname
+    setup_hostname $profile
     setup_pacman
     setup_service $profile
     setup_bootloader
@@ -27,11 +27,11 @@ def "main reset_systemd_boot_config" [] {
     setup_systemd_boot_config $esp_dir
 }
 
-def setup_user [] {
+def setup_user [profile] {
     print "setup user"
     
     print "set username:"
-    let username = input '>>'
+    let username = $profile.user.name
 
     print $"create user: ($username)"
     if (sys users | where name == $username | is-not-empty) {
@@ -74,10 +74,10 @@ def setup_time_zone_and_locale [] {
     print "setup time zone and locale success"
 }
 
-def setup_hostname [] {
+def setup_hostname [profile] {
     print "setup hostname"
     print "set hostname:"
-    let hostname = input '>>'
+    let hostname = $profile.host.name
     $hostname | save /etc/hostname
     print "setup hostname success"
 }
