@@ -1,7 +1,7 @@
 #!/usr/bin/env nu
 
 const root_mount_dir = "/mnt"
-const efi_mount_dir = "/mnt/boot"
+const esp_mount_dir = "/mnt/boot"
 
 def main [] {
     print "install start"
@@ -40,9 +40,9 @@ def "main reset_bootloader" [] {
     let disk = $disks | first
     print $disk
 
-    let efi_partition = $disk.children.0
+    let esp_partition = $disk.children.0
     let root_partition = $disk.children.1
-    print $efi_partition
+    print $esp_partition
     print $root_partition
 
     if $root_partition.mountpoint == null {
@@ -51,10 +51,10 @@ def "main reset_bootloader" [] {
         print $"found root partition has already mounted at ($root_partition.mountpoint)"
     }
 
-    if $efi_partition.mountpoint == null {
-        mount $efi_partition.name $efi_mount_dir
+    if $esp_partition.mountpoint == null {
+        mount $esp_partition.name $esp_mount_dir
     } else {
-        print $"found efi partition has already mounted at ($efi_partition.mountpoint)"
+        print $"found esp partition has already mounted at ($esp_partition.mountpoint)"
     }
 
     enter_chroot "reset_bootloader"
@@ -97,17 +97,17 @@ def partition_and_mount [] {
         | sort-by name
     )
 
-    let efi_partition = $partitions | get 0
+    let esp_partition = $partitions | get 0
     let root_partition = $partitions | get 1
     print "created partitions:"
-    print $"efi partition: ($efi_partition), root partition: ($root_partition)"
+    print $"esp partition: ($esp_partition), root partition: ($root_partition)"
 
     mkfs.ext4 $root_partition.name
     mount $root_partition.name $root_mount_dir
     print "mount root partition success"
 
-    mkfs.fat -F 32 $efi_partition.name
-    mount --mkdir $efi_partition.name $efi_mount_dir
+    mkfs.fat -F 32 $esp_partition.name
+    mount --mkdir $esp_partition.name $esp_mount_dir
     print "mount efi partition success"
 
     print "partition and mount success"
