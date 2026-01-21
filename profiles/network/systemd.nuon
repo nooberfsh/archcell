@@ -1,9 +1,0 @@
-# systemd network profile
-{
-    packages: [
-    ]
-    services: [
-        systemd-networkd
-        systemd-resolved
-    ]
-}

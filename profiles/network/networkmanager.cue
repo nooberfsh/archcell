@@ -1,0 +1,6 @@
+packages: [
+    "networkmanager"
+]
+services: [
+    "NetworkManager"
+]

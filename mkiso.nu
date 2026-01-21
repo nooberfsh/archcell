@@ -37,10 +37,19 @@ def "main normalize" [
 }
 
 def normalize_profile [raw_profile] {
+    let network_type = $raw_profile.network.type
+    let network_profile = cue export $"profiles/network/($network_type).cue" | from json
+    let new_packages = normalize_packages $raw_profile $network_profile
+    let new_services = normalize_services $raw_profile $network_profile
+    $raw_profile | update packages $new_packages |  update services $new_services
+}
+
+def normalize_packages [raw_profile, network_profile] {
     let new_packages = $raw_profile.packages | each {|e| normalize_package $e} | flatten
     # TODO: 目前 install_chroot 依赖 nushell, 需要找到一种方式去除这个依赖
-    let new_packages = $new_packages| append "nushell"
-    $raw_profile | update packages $new_packages
+    let new_packages = $new_packages | append "nushell"
+
+    $new_packages ++ $network_profile.packages
 }
 
 def normalize_package [package] {
@@ -52,6 +61,10 @@ def normalize_package [package] {
     } else {
         error make {msg: $"invalid package format: $($package), expect string or record"}
     }
+}
+
+def normalize_services [raw_profile, network_profile] {
+    $raw_profile.services ++ $network_profile.services
 }
 
 def build_local_repo [profile_name: string, profile] {
