@@ -14,7 +14,8 @@ def main [
 
     let profile_name = $profile_path | path parse | get stem
     print $"handle profile: ($profile_name)"
-    let profile = cue export $profile_path | from json
+    let raw_profile = cue export $profile_path | from json
+    let profile = normalize_profile $raw_profile
 
     if not $ignore_build_repo {
       print "build local repo"
@@ -25,6 +26,30 @@ def main [
     build_custom_iso $profile_name $profile
 
     print "mkiso success"
+}
+
+# 展示 normalize 后的 profile
+def "main normalize" [
+    profile_path: string,      # profile 文件路径
+] {
+    let raw_profile = cue export $profile_path | from json
+    normalize_profile $raw_profile
+}
+
+def normalize_profile [raw_profile] {
+    let new_packages = $raw_profile.packages | each {|e| normalize_package $e} | flatten
+    $raw_profile | update packages $new_packages
+}
+
+def normalize_package [package] {
+    let ty = $package | describe -d | get type
+    if $ty == "string" {
+        [$package]
+    } else if $ty == "record" {
+        [$package.name] ++ $package.deps
+    } else {
+        error make {msg: $"invalid package format: $($package), expect string or record"}
+    }
 }
 
 def build_local_repo [profile_name: string, profile] {
