@@ -1,3 +1,5 @@
+package server
+
 packages: [
 	// base 依赖 iproute2, iproute2 依赖 libxtables.so=12-64, 指定 iptables-nft 提供
 	{name: "base", deps: ["iptables-nft"]},
