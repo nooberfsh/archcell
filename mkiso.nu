@@ -7,14 +7,13 @@ const configs_dir = "configs"
 const archiso_work_dir = "/tmp/archiso-tmp"
 
 def main [
-    profile_path: string,      # profile 文件路径
+    profile_name: string,      # profile 名
     --ignore_build_repo (-i)   # 忽略构建本地 repo.
 ] {
     print "mkiso start"
 
-    let profile_name = $profile_path | path parse | get stem
     print $"handle profile: ($profile_name)"
-    let raw_profile = cue export $profile_path | from json
+    let raw_profile = load_profile $profile_name
     let profile = normalize_profile $raw_profile
 
     if not $ignore_build_repo {
@@ -30,10 +29,15 @@ def main [
 
 # 展示 normalize 后的 profile
 def "main normalize" [
-    profile_path: string,      # profile 文件路径
+    profile_name: string,      # profile 名
 ] {
-    let raw_profile = cue export $profile_path | from json
+    let raw_profile = load_profile $profile_name
     normalize_profile $raw_profile
+}
+
+def load_profile [name] {
+    cd $"profiles/($name)"
+    cue export | from json
 }
 
 def normalize_profile [raw_profile] {
@@ -45,11 +49,15 @@ def normalize_profile [raw_profile] {
 }
 
 def normalize_packages [raw_profile, network_profile] {
-    let new_packages = $raw_profile.packages | each {|e| normalize_package $e} | flatten
+    let new_packages = normalize_package_list $raw_profile.packages
     # TODO: 目前 install_chroot 依赖 nushell, 需要找到一种方式去除这个依赖
     let new_packages = $new_packages | append "nushell"
 
     $new_packages ++ $network_profile.packages
+}
+
+def normalize_package_list [packages] {
+    $packages | each {|e| normalize_package $e} | flatten
 }
 
 def normalize_package [package] {
@@ -58,6 +66,8 @@ def normalize_package [package] {
         [$package]
     } else if $ty == "record" {
         [$package.name] ++ $package.deps
+    } else if $ty == "list" {
+        normalize_package_list $package  
     } else {
         error make {msg: $"invalid package format: $($package), expect string or record"}
     }
