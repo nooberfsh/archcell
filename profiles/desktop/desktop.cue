@@ -1,54 +1,51 @@
 package desktop
 
 import (
-    S "github.com/nooberfsh/archcell/server"
+	S "github.com/nooberfsh/archcell/server"
 )
 
 packages: [
-    S.packages,
+	S.packages,
 
-    // wayland related
-    "wl-clipboard",
+	// wayland related
+	"wl-clipboard",
 
-    // graphic driver
-    "mesa",
+	// graphic driver
+	"mesa",
 
-    // dev core
-    "base-devel",
-    "pacman-contrib",
-    "nushell",
+	// dev core
+	"base-devel",
+	"pacman-contrib",
+	"nushell",
 
-    // kde
-    "plasma-meta",
-    "sddm",
-    "konsole",
+	// kde
+	{
+		name: "plasma-meta"
+		deps: [
+			// 提供 qt6-multimedia-backend, 被 qt6-multimedia 依赖, qt6-multimedia 被 plasma-meta 依赖
+			"qt6-multimedia-ffmpeg",
+	        // 提供 jack, 被 ffmpeg 依赖, ffmpeg 被 qt6-multimedia-ffmpeg 依赖
+	        "pipewire-jack",
+			// 提供 ttf-font, 被 plasma-meta 依赖
+			"noto-fonts",
+			// 提供 emoji-font, 被 plasma-meta 依赖
+			"noto-fonts-emoji",
+		]
+	},
+	"sddm",
+	"konsole",
 
-    // 提供 phonon-qt6-backend, 被 phonon-qt6 依赖, phonon-qt6 被 plasma-meta 依赖
-    "phonon-qt6-vlc",
+	// input method
+	"fcitx5",
+	"fcitx5-chinese-addons",
+	"fcitx5-pinyin-zhwiki",
 
-    // 提供 qt6-multimedia-backend, 被 qt6-multimedia 依赖, qt6-multimedia 被 plasma-meta 依赖
-    "qt6-multimedia-ffmpeg",
-
-    // 提供 jack, 被 plasma-meta 依赖
-    "pipewire-jack",
-
-    // input method
-    "fcitx5",
-    "fcitx5-chinese-addons",
-    "fcitx5-pinyin-zhwiki",
-
-    // fonts
-    "wqy-microhei",
-
-    // 提供 ttf-font, 被 plasma-meta 依赖
-    "noto-fonts",
-
-    // 提供 emoji-font, 被 plasma-meta 依赖
-    "noto-fonts-emoji",
+	// fonts
+	"wqy-microhei",
 ]
 
 services: [
-    "sddm"
+	"sddm",
 ]
 
 network: {
