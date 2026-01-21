@@ -38,6 +38,8 @@ def "main normalize" [
 
 def normalize_profile [raw_profile] {
     let new_packages = $raw_profile.packages | each {|e| normalize_package $e} | flatten
+    # TODO: 目前 install_chroot 依赖 nushell, 需要找到一种方式去除这个依赖
+    let new_packages = $new_packages| append "nushell"
     $raw_profile | update packages $new_packages
 }
 
