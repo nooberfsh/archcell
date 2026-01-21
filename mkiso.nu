@@ -1,7 +1,5 @@
 #!/usr/bin/env nu
 
-use scripts/common.nu *
-
 const build_dir = "build"
 const repo_name = "custom"
 const archiso_profile_dir = "/usr/share/archiso/configs/releng"
@@ -9,16 +7,14 @@ const configs_dir = "configs"
 const archiso_work_dir = "/tmp/archiso-tmp"
 
 def main [
-  --ignore_build_repo # 忽略构建本地 repo.
+    profile_path: string,      # profile 文件路径
+    --ignore_build_repo (-i)   # 忽略构建本地 repo.
 ] {
     print "mkiso start"
 
-    print "select a profile:"
-    let profile_names = get_profiles
-    let profile_name = $profile_names | input list
-    print $"select profile: ($profile_name)"
-
-    let profile = load_profile $profile_name
+    let profile_name = $profile_path | path parse | get stem
+    print $"handle profile: ($profile_name)"
+    let profile = cue export $profile_path | from json
 
     if not $ignore_build_repo {
       print "build local repo"
