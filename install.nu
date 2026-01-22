@@ -52,7 +52,7 @@ def "main reset_bootloader" [] {
     }
 
     if $esp_partition.mountpoint == null {
-        mount $esp_partition.name $esp_mount_dir
+        mount -o fmask=0077,dmask=0077 $esp_partition.name $esp_mount_dir
     } else {
         print $"found esp partition has already mounted at ($esp_partition.mountpoint)"
     }
@@ -107,7 +107,13 @@ def partition_and_mount [] {
     print "mount root partition success"
 
     mkfs.fat -F 32 $esp_partition.name
-    mount --mkdir $esp_partition.name $esp_mount_dir
+    # 不指定 fmask和dmask 的情况下默认权限是 0022, 导致所有用户都可以读取这个分区的文件
+    # 由于 systemd-boot 会在该分区产生 random-seed 文件用于初始化内核随机数生成器,所以需要确保
+    # 这个文件只有 root 才能访问, 默认情况下 `bootctl isntall` 会发出严重警告. 所以我们需要修改
+    # 这个权限为 0077
+    # https://askubuntu.com/questions/429848/dmask-and-fmask-mount-options
+    # https://bbs.archlinux.org/viewtopic.php?id=287790
+    mount --mkdir -o fmask=0077,dmask=0077 $esp_partition.name $esp_mount_dir
     print "mount efi partition success"
 
     print "partition and mount success"
