@@ -13,6 +13,7 @@ def main [] {
     setup_hostname $profile
     setup_pacman
     setup_service $profile
+    setup_network $profile
     setup_bootloader
 
     print "bootstrap configuration success"
@@ -100,6 +101,63 @@ def setup_service [profile] {
     }
 
     print "setup service success"
+}
+
+def setup_network [profile] {
+    print "setup network"
+
+    let type = $profile.network.type
+    if $type == "systemd" {
+        setup_systemd_network $profile
+    } else if $type == "networkmanager" {
+        setup_networkmanager $profile  
+    } else {
+        error make {msg: $"invalid network type ($type), expects: systemd, networkmanager"}
+    }
+
+    print "setup network success"
+}
+
+# https://wiki.archlinux.org/title/Systemd-networkd
+def setup_systemd_network [profile] {
+    # wait online config
+    let wait_online_dir = "systemd/system/systemd-networkd-wait-online.service.d"
+    rm -fr $"/etc/($wait_online_dir)"
+    cp -r $"($configs_dir)/($wait_online_dir)" "/etc/systemd/system"
+
+    let interfaces = ip -j link | from json | where link_type == 'ether' | select ifname  operstate
+    let interface = $interfaces | input list
+
+    let address = $profile.network.address?
+        
+    let config = if $address == "dhcp" {
+        $"
+[Match]
+Name=($interface.ifname)
+
+[Link]
+RequiredForOnline=routable
+
+[Network]
+DHCP=yes            
+"
+    } else {
+        $"
+[Match]
+Name=($interface.ifname)
+
+[Network]
+Address=($address.address)
+Gateway=($address.gateway)
+DNS=($address.dns)
+        "
+    }
+    $config | save -f "/etc/systemd/network/20-wired.network"
+}
+
+def setup_networkmanager [profile] {
+    
+    # TODO
 }
 
 def setup_bootloader [] {
