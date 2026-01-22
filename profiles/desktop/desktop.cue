@@ -7,12 +7,6 @@ import (
 packages: [
 	S.packages,
 
-	// wayland related
-	"wl-clipboard",
-
-	// graphic driver
-	"mesa",
-
 	// dev core
 	"base-devel",
 	"pacman-contrib",

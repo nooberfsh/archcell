@@ -14,10 +14,6 @@
         nushell
         grub
         efibootmgr
-        wl-clipboard
-
-        ######################### graphic driver
-        mesa
 
         ######################### dev core
         base-devel
@@ -56,6 +52,11 @@
         #########################################################################
         ######## NOTE: the above package should stay sync with the desktop profile
         #################### extra packages ######################################
+        wl-clipboard
+
+        ######################### graphic driver
+        mesa
+
         # gui
         dolphin # 文件浏览器
         firefox
