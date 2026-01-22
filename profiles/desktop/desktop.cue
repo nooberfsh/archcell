@@ -18,8 +18,8 @@ packages: [
 		deps: [
 			// 提供 qt6-multimedia-backend, 被 qt6-multimedia 依赖, qt6-multimedia 被 plasma-meta 依赖
 			"qt6-multimedia-ffmpeg",
-	        // 提供 jack, 被 ffmpeg 依赖, ffmpeg 被 qt6-multimedia-ffmpeg 依赖
-	        "pipewire-jack",
+			// 提供 jack, 被 ffmpeg 依赖, ffmpeg 被 qt6-multimedia-ffmpeg 依赖
+			"pipewire-jack",
 			// 提供 ttf-font, 被 plasma-meta 依赖
 			"noto-fonts",
 			// 提供 emoji-font, 被 plasma-meta 依赖
