@@ -35,14 +35,18 @@ def "main normalize" [
     normalize_profile $raw_profile
 }
 
+def "load_profile_packages" [name] {
+    let profile = load_profile $name
+    normalize_package_list $profile.packages
+}
+
 def load_profile [name] {
-    cd $"profiles/($name)"
-    cue export | from json
+    open $"profiles/($name).toml"
 }
 
 def normalize_profile [raw_profile] {
     let network_type = $raw_profile.network.type
-    let network_profile = cue export $"profiles/network/($network_type).cue" | from json
+    let network_profile = open $"profiles/network/($network_type).toml"
     let new_packages = normalize_packages $raw_profile $network_profile
     let new_services = normalize_services $raw_profile $network_profile
     $raw_profile | update packages $new_packages |  update services $new_services
@@ -63,7 +67,12 @@ def normalize_package_list [packages] {
 def normalize_package [package] {
     let ty = $package | describe -d | get type
     if $ty == "string" {
-        [$package]
+        if ($package | str starts-with "@") {
+            let profile = $package | str replace "@" ""
+            load_profile_packages $profile
+        } else {
+            [$package]
+        }
     } else if $ty == "record" {
         [$package.name] ++ $package.deps
     } else if $ty == "list" {

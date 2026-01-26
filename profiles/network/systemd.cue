@@ -1,7 +1,0 @@
-// https://wiki.archlinux.org/title/Systemd-networkd
-packages: []
-services: [
-	"systemd-networkd",
-	"systemd-resolved",
-	"systemd-networkd-wait-online",
-]
