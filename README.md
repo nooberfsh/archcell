@@ -8,7 +8,7 @@ archlinux 打包/安装脚本。
 
 ## 制作镜像
 ```nu
-./mkiso.nu
+./mkiso.nu <profile>
 ```
 运行完成之后，镜像文件会在 `build/<profile>` 目录下，名字格式为 `archlinux-<date>-x86_64.iso`
 
@@ -16,7 +16,7 @@ archlinux 打包/安装脚本。
 制作镜像的时候会让用户选择某个 profile, profile 代表一组 package 和一组 service. 目前包含以下 profiles:
 - server: 不包含桌面环境,趋向于最小化安装.
 - desktop: 基础桌面版本,只包含必要的包,趋向于最小化安装.
-- desktop_extra: 这个 profile 接近我日常使用的配置,趋向于最大化安装.
+- desktop_full: 这个 profile 接近我日常使用的配置,趋向于最大化安装.
 
 所有 profile 可以在 `profiles` 目录下找到.另外 `profiles` 下面有一个 `network` 目录, 该目前主要
 是让用户选择基础网络工具,目前包含:
